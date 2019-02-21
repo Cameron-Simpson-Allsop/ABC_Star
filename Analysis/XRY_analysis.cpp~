@@ -1,0 +1,71 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+
+struct Data
+{
+  std::vector<double> Total_TID; //Dose rate x time
+  std::vector<double> VDDA; //Analogue voltage 
+  std::vector<double> VDDD; //Digital voltage
+  std::vector<double> IDDA; //Analogue current
+  std::vector<double> IDDD; //Digital current
+  // std::vector<double> IDDD1; //Digital current (lower line one)
+  std::vector<double> Vset; //Set voltage
+  std::vector<double> Vact; //Actual voltage
+  std::vector<double> Iset; //Set current
+  std::vector<double> Iact; //Actual current
+  //Units for currents and voltages are all SI
+};
+
+Data ProcessFile(std::string filePath)
+{
+  Data data;
+  std::string errorMsg{"Error opening file '"+filePath+"'..."};
+  std::string successMsg{"File '"+filePath+"' succesfully processed..."};
+  std::string fileLine{""};
+  std::size_t TID_marker;
+  std::size_t VDDA_IDDA_marker;
+  std::size_t VDDD_IDDD_marker;
+  std::size_t Vset_Vact_marker;
+  std::size_t Iset_Iact_marker;
+  ifstream inFile;
+  inFile.open(filePath);
+  if(!inFile.good())
+    {
+      std::cout<<errorMsg<<std::endl;
+      return data;
+    }
+  while(!inFile.eof())
+    {
+      getline(inFile,fileLine);
+      TID_marker = fileLine.find("TOTAL TID");
+      VDDA_IDDA_marker = fileLine.find("VDDA");
+      VDDD_IDDD_marker = fileLine.find("VDDD");
+      Vset_Vact_marker = fileLine.find("V(set)");
+      Iset_Iact_marker = fileLine.find("I(set)");
+      if(TID_marker != std::string::npos)
+	{
+	  std::string tmp1,tmp2,tmp3;
+	  double TID;
+	  stringstream ss(fileLine);
+	  ss >> tmp1 >> tmp2 >> tmp3 >> TID;
+	  data.Total_TID.push_back(TID);
+	}
+      else if(VDDA_IDDA_marker != std::string::npos)
+	{
+	  std::string tmp1,tmp2,tmp3,tmp4;
+	  double VDDA,IDDA;
+	  stringstream ss()
+	}
+    }
+  //for(int i{0}; i<data.Total_TID.size(); ++i){std::cout<<data.Total_TID[i]<<std::endl;}
+  std::cout<<successMsg<<std::endl;
+  return data;
+}
+
+void XRY_analysis()
+{
+  ProcessFile("../logs/XRY_monitoring_190.txt");
+  ProcessFile("../logs/XRY_monitoring_204.txt");
+}
