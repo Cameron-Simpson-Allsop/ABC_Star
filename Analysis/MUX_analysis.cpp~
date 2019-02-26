@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+
+struct Data
+{
+  std::vector<double> TID,eTRDAC;
+  // std::vector<double> eTRDAC;
+  // std::vector<double> eVREF;
+  // std::vector<double> eIREF;
+  // std::vector<double> eR8B;
+  // std::vector<double> eVCD;
+  // std::vector<double> eVB;
+  // std::vector<double> eVBG;
+  // std::vector<double> eCALIN;
+  // std::vector<double> 
+  
+};
+
+Data ProcessFile(std::string filePath)
+{
+  Data data;
+  std::string errorMsg{"Error opening file '"+filePath+"'..."};
+  std::string successMsg{"File '"+filePath+"' succesfully processed..."};
+  std::string fileLine{""};
+  std::string weekday,month,day,timestamp,year;
+  double TID,eTRDAC,iTRDAC,eVREF,iVREF,eIREF,iIREF,eR8B,iR8B,eVCD,iVCD,eVB,iVB,eVBG,iVBG,eCALIN,iCALIN,eTHDAC,iTHDAC,eVTTES,iVTTES,eVTREF,iVTREF,eGNDA,iGNDA,eCOM,iCOM,eVDRAW,iVDRAW,eVDREG,iVDREG,eVAREG,iVAREG;
+  ifstream inFile;
+  inFile.open(filePath);
+  if(!inFile.good())
+    {
+      std::cout<<errorMsg<<std::endl;
+      return data;
+    }
+  getline(inFile,fileLine);
+  std::cout<<fileLine<<"\n\n";
+  getline(inFile,fileLine);
+  std::cout<<fileLine<<"\n\n";
+  
+
+  std::cout<<successMsg<<std::endl;
+  return data;
+}
+
+void MUX_analysis()
+{
+  ProcessFile("../logs/MUX_monitoring_190.txt");
+}
