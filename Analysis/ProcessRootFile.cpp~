@@ -1,0 +1,30 @@
+#include <iostream>
+#include <fstream>
+
+void wafer_analysis()
+{
+  //Find File
+  TString filePrefix = "../wafer/";
+  TString fileName = "VJCVPXH_009_MUX_EXT_data_20190107_000627";
+  TString fileSuffix = ".root";
+  TString filePath = filePrefix+fileName+fileSuffix;
+  TFile *file = TFile::Open(filePath);
+  TCanvas *ADCScanCanvas = (TCanvas *)file->Get("ADCScanCanvas");
+  if(ADCScanCanvas == NULL){std::cout<<"Canvas is null..."<<std::endl;}
+  ADCScanCanvas->Draw();
+  ADCScanCanvas->ls();  
+  TPad *mypad= (TPad*)ADCScanCanvas->GetPrimitive("pad_plot");
+  
+  TPad *mysubpad1 = (TPad*)mypad->GetPrimitive("pad_plot_1");
+  //mysubpad1->ls();
+  TGraphErrors *myTGraph = (TGraphErrors*)mysubpad1->GetPrimitive("Graph");
+  std::cout<<"==============================="<<std::endl;
+  std::cout<<"Pad 1"<<std::endl;
+  std::cout<<"==============================="<<std::endl;
+  for(int i = 0; i < myTGraph->GetN();++i)
+    {
+      double x,y;
+      myTGraph->GetPoint(i,x,y);
+      std::cout<<x<<"\t"<<y<<std::endl;
+    }
+}
