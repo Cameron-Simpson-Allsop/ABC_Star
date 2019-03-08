@@ -1,0 +1,5 @@
+{
+//========= Macro generated from object: TList/Doubly linked list
+//========= by ROOT version6.14/08
+//Primitive: TList/Doubly linked list. You must implement TList::SavePrimitive
+}
