@@ -19,9 +19,39 @@ TID_Data VDOA_vs_LDOA(TString graphName, TString padName, TString fileName, Data
       float tol{0.01};
       if(y5<y4<y3<y2<y1 && abs(y5-y4) > tol && abs(y4-y3) > tol && abs(y3-y2) > tol && abs(y2-y1) > tol)
 	{
-	  std::cout<<graphName+" "+padName+" VDDA vs LDOA discontinuity " /*<< fileName*/ << " = " <<data.x[n]<<std::endl;
+	  //std::cout<<graphName+" "+padName+" VDDA vs LDOA discontinuity " /*<< fileName*/ << " = " <<data.x[n]<<std::endl;
 	  TID.VDDA_vs_LDOA_disc_x = data.x[n];
 	  TID.VDDA_vs_LDOA_disc_y = data.y[n];
+	  n=data.x.size()-4;
+	}
+    }
+  
+  TID.timeStamp = data.timeStamp;
+  TID.MRad = data.MRad;
+  TID.marker_xcoord = data.marker_xcoord;
+  TID.marker_ycoord = data.marker_ycoord;
+  TID.init_check = data.init_check;	      
+  return TID;
+}
+
+TID_Data VDDD_vs_LDOD(TString graphName, TString padName, TString fileName, Data data)
+{
+  TID_Data TID;
+  double y1,y2,y3,y4,y5;
+  for(int n{0}; n<data.x.size()-4; ++n)
+    {
+      y1 = data.y[n];
+      y2 = data.y[n+1];
+      y3 = data.y[n+2];
+      y4 = data.y[n+3];
+      y5 = data.y[n+4];
+      //std::cout<<n<<"\t"<<y1<<"\t"<<y2<<"\t"<<y3<<"\t"<<y4<<"\t"<<y5<<std::endl;
+      float tol{0.01};
+      if(y5<y4<y3<y2<y1 && abs(y5-y4) > tol && abs(y4-y3) > tol && abs(y3-y2) > tol && abs(y2-y1) > tol)
+	{
+	  //std::cout<<graphName+" "+padName+" VDDD vs LDOD discontinuity " /*<< fileName*/ << " = " <<data.x[n]<<std::endl;
+	  TID.VDDD_vs_LDOD_disc_x = data.x[n];
+	  TID.VDDD_vs_LDOD_disc_y = data.y[n];
 	  n=data.x.size()-4;
 	}
     }

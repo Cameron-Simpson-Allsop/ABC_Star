@@ -9,6 +9,8 @@ struct Data_vs_TID_EXT
 {
   std::vector<double> VDDA_vs_LDOA_disc_x;
   std::vector<double> VDDA_vs_LDOA_disc_y;
+  std::vector<double> VDDD_vs_LDOD_disc_x;
+  std::vector<double> VDDD_vs_LDOD_disc_y;
   std::vector<double> timeStamp;
   std::vector<double> MRad;  
   std::vector<double> marker_xcoord;
@@ -114,7 +116,7 @@ void wafer_analysis()
 			  datavTID_EXT_8.MRad.push_back(TID.MRad);
 			  datavTID_EXT_8.marker_xcoord.push_back(TID.marker_xcoord);
 			  datavTID_EXT_8.marker_ycoord.push_back(TID.marker_ycoord);
-			  std::cout<<"Chip 008"<<std::endl;
+			  //std::cout<<"Chip 008"<<std::endl;
 			  ++processedfilecount;
 			}
 		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
@@ -125,7 +127,7 @@ void wafer_analysis()
 			  datavTID_EXT_9.MRad.push_back(TID.MRad);
 			  datavTID_EXT_9.marker_xcoord.push_back(TID.marker_xcoord);
 			  datavTID_EXT_9.marker_ycoord.push_back(TID.marker_ycoord);
-			  std::cout<<"Chip 009"<<std::endl;
+			  //std::cout<<"Chip 009"<<std::endl;
 			  ++processedfilecount;
 			}
 		      else

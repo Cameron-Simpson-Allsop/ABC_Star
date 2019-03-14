@@ -37,7 +37,6 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TPad *mysubpad = (TPad*)mypad->GetPrimitive(padName);
   //mysubpad1->ls();
   TGraphErrors *myTGraph = (TGraphErrors*)mysubpad->GetPrimitive(graphName);	      
-  std::cout<<padName<<"\t"<<graphName<<std::endl;
   for(int i = 0; i < myTGraph->GetN();++i)
     {
       double x,y;
@@ -69,20 +68,28 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       data.marker_xcoord = marker->GetX();
       data.marker_ycoord = marker->GetY();
 
-      data.init_check = true;      
-      std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad";//<<std::endl;
+      data.init_check = true;
+      if(padName == "pad_plot_1")
+	{
+	  std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad";//<<std::endl;
+	}
     }
   if((Time != std::string::npos && MRad == std::string::npos) || marker == NULL)
     {
       data.init_check = false;
     }
+  
+  if(padName == "pad_plot_1")
+    {
+      std::string failreason = "";
+      if(MRad == std::string::npos){failreason = "No TID data";}
+      if(marker == NULL){failreason = "Anomalous data";}
+      if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
+      if(data.init_check == true){std::cout<<"\t\t | Pass"<<std::endl;}
+      else if(data.init_check == false){std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;}
+    }
 
-  std::string failreason = "";
-  if(MRad == std::string::npos){failreason = "No TID data";}
-  if(marker == NULL){failreason = "Anomalous data";}
-  if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
-  if(data.init_check == true){std::cout<<"\t\t | Pass"<<std::endl;}
-  else if(data.init_check == false){std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;}
+  std::cout<<padName<<"\t"<<graphName<<std::endl;
   
   data.padName = padName;
   data.graphName = graphName;
