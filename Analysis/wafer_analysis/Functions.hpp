@@ -28,8 +28,8 @@ TID_Data VDOA_vs_LDOA(TString graphName, TString padName, TString fileName, Data
   
   TID.timeStamp = data.timeStamp;
   TID.MRad = data.MRad;
-  TID.marker_xcoord = data.marker_xcoord;
-  TID.marker_ycoord = data.marker_ycoord;
+  TID.marker_xcoord_VDDA = data.marker_xcoord;
+  TID.marker_ycoord_VDDA = data.marker_ycoord;
   TID.init_check = data.init_check;	      
   return TID;
 }
@@ -58,11 +58,22 @@ TID_Data VDDD_vs_LDOD(TString graphName, TString padName, TString fileName, Data
   
   TID.timeStamp = data.timeStamp;
   TID.MRad = data.MRad;
-  TID.marker_xcoord = data.marker_xcoord;
-  TID.marker_ycoord = data.marker_ycoord;
+  TID.marker_xcoord_VDDD = data.marker_xcoord;
+  TID.marker_ycoord_VDDD = data.marker_ycoord;
   TID.init_check = data.init_check;	      
   return TID;
 }
+
+TID_Data TRDAC(Data data)
+  {
+    TID_Data TID;
+    TID.timeStamp = data.timeStamp;
+    TID.MRad = data.MRad;
+    TID.TRDACfitp0 = data.TRDACfitp0;
+    TID.TRDACfitp1 = data.TRDACfitp1;
+    TID.init_check = data.init_check;
+    return TID;
+  }
 
 TID_Data Functions(TString graphName, TString padName, TString fileName, Data data, int function)
 {
@@ -70,6 +81,8 @@ TID_Data Functions(TString graphName, TString padName, TString fileName, Data da
   switch(function)
     {
     case 0: TID = VDOA_vs_LDOA(graphName, padName, fileName, data); break;
+    case 1: TID = VDDD_vs_LDOD(graphName,padName, fileName, data); break;
+    case 2: TID = TRDAC(data); break;
     }
 
   return TID;

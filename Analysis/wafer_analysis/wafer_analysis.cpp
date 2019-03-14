@@ -13,8 +13,12 @@ struct Data_vs_TID_EXT
   std::vector<double> VDDD_vs_LDOD_disc_y;
   std::vector<double> timeStamp;
   std::vector<double> MRad;  
-  std::vector<double> marker_xcoord;
-  std::vector<double> marker_ycoord;
+  std::vector<double> marker_xcoord_VDDD;
+  std::vector<double> marker_ycoord_VDDD;  
+  std::vector<double> marker_xcoord_VDDA;
+  std::vector<double> marker_ycoord_VDDA;
+  std::vector<double> TRDACfitp0;
+  std::vector<double> TRDACfitp1;
 };
 
 TGraph *Plot(std::vector<double> x, std::vector<double> y, TString xtitle, TString ytitle, TString title)
@@ -48,6 +52,8 @@ void wafer_analysis()
   std::string line{""};  
   int filecount{0};
   int processedfilecount{0};
+  int padcount{0};
+  int processedpadcount{0};
 
   //For each file...
   while(!fileList.eof())
@@ -75,8 +81,9 @@ void wafer_analysis()
 	      std::cout<<"================================================================================================"<<std::endl;
 	      std::cout<<fileName+fileSuffix<<std::endl;
 	      //Extract data from file
-	      for(int i{0}; i<2; ++i)
-		{	 
+	      for(int i{0}; i<3; ++i)
+		{
+		  ++padcount;
 		  Data data;
 		  TID_Data TID;
 		  padName = padPrefix + std::to_string(i+1);
@@ -114,10 +121,11 @@ void wafer_analysis()
 			  datavTID_EXT_8.VDDA_vs_LDOA_disc_y.push_back(TID.VDDA_vs_LDOA_disc_y);
 			  datavTID_EXT_8.timeStamp.push_back(TID.timeStamp);
 			  datavTID_EXT_8.MRad.push_back(TID.MRad);
-			  datavTID_EXT_8.marker_xcoord.push_back(TID.marker_xcoord);
-			  datavTID_EXT_8.marker_ycoord.push_back(TID.marker_ycoord);
+			  datavTID_EXT_8.marker_xcoord_VDDA.push_back(TID.marker_xcoord_VDDA);
+			  datavTID_EXT_8.marker_ycoord_VDDA.push_back(TID.marker_ycoord_VDDA);
 			  //std::cout<<"Chip 008"<<std::endl;
 			  ++processedfilecount;
+			  ++processedpadcount;
 			}
 		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
 			{
@@ -125,20 +133,58 @@ void wafer_analysis()
 			  datavTID_EXT_9.VDDA_vs_LDOA_disc_y.push_back(TID.VDDA_vs_LDOA_disc_y);
 			  datavTID_EXT_9.timeStamp.push_back(TID.timeStamp);
 			  datavTID_EXT_9.MRad.push_back(TID.MRad);
-			  datavTID_EXT_9.marker_xcoord.push_back(TID.marker_xcoord);
-			  datavTID_EXT_9.marker_ycoord.push_back(TID.marker_ycoord);
+			  datavTID_EXT_9.marker_xcoord_VDDA.push_back(TID.marker_xcoord_VDDA);
+			  datavTID_EXT_9.marker_ycoord_VDDA.push_back(TID.marker_ycoord_VDDA);
 			  //std::cout<<"Chip 009"<<std::endl;
 			  ++processedfilecount;
+			  ++processedpadcount;
 			}
 		      else
 			{
-			  std::cout<<"Error processing file '"+line+"'..."<<std::endl;
+			  std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 			}
 		      break;
 
 		    case 1:
-		      //TID = Functions()
+		      TID = Functions(graphName[i],padName,fileName,data,i);
+		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+			{
+			  datavTID_EXT_8.VDDD_vs_LDOD_disc_x.push_back(TID.VDDD_vs_LDOD_disc_x);
+			  datavTID_EXT_8.VDDD_vs_LDOD_disc_y.push_back(TID.VDDD_vs_LDOD_disc_y);
+			  datavTID_EXT_8.marker_xcoord_VDDD.push_back(TID.marker_xcoord_VDDD);
+			  datavTID_EXT_8.marker_ycoord_VDDD.push_back(TID.marker_ycoord_VDDD);
+			  //std::cout<<"Chip 008"<<std::endl;
+			  ++processedpadcount;			  
+			}
+		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+			{
+			  datavTID_EXT_9.VDDD_vs_LDOD_disc_x.push_back(TID.VDDD_vs_LDOD_disc_x);
+			  datavTID_EXT_9.VDDD_vs_LDOD_disc_y.push_back(TID.VDDD_vs_LDOD_disc_y);
+			  datavTID_EXT_9.marker_xcoord_VDDD.push_back(TID.marker_xcoord_VDDD);
+			  datavTID_EXT_9.marker_ycoord_VDDD.push_back(TID.marker_ycoord_VDDD);
+			  //std::cout<<"Chip 009"<<std::endl;
+			  ++processedpadcount;
+			}
+		      else
+			{
+			  std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			}
 		      break;
+
+		    case 2:
+		      TID = Functions(graphName[i],padName,fileName,data,i);
+		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+			{
+			  ++processedpadcount;			  
+			}
+		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+			{
+			  ++processedpadcount;
+			}
+		      else
+			{
+			  std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			}
 		    }
 		}
 	      std::cout<<"================================================================================================"<<std::endl;	      
@@ -162,36 +208,74 @@ void wafer_analysis()
   TGraph *VDDA_vs_LDOA_disc_x_8;
   TGraph *VDDA_vs_LDOA_disc_y_8;
   TGraph2D *VDDA_vs_LDOA_disc_8;
-  TGraph *marker_x_8;
-  TGraph *marker_y_8;
-  TGraph2D *marker_8;  
+  TGraph *marker_x_8_VDDA;
+  TGraph *marker_y_8_VDDA;
+  TGraph2D *marker_8_VDDA;  
   VDDA_vs_LDOA_disc_x_8 = Plot(datavTID_EXT_8.VDDA_vs_LDOA_disc_x, datavTID_EXT_8.MRad, "VDDA vs LDOA Discontinuity [LDOA Setting]","TID [MRAD]", "VDDA vs LDOA Discontinuity [LDOA setting]");
   VDDA_vs_LDOA_disc_y_8 = Plot(datavTID_EXT_8.VDDA_vs_LDOA_disc_y, datavTID_EXT_8.MRad, "VDDA vs LDOA Discontinuity [Measured Voltage [V]]","TID [MRAD]", "VDDA vs LDOA Discontinuity [Measured Voltage [V]]");
   VDDA_vs_LDOA_disc_8 = Plot2D(datavTID_EXT_8.VDDA_vs_LDOA_disc_x, datavTID_EXT_8.VDDA_vs_LDOA_disc_y, datavTID_EXT_8.MRad, "VDDA vs LDOA Discontinuity [LDOA Setting]","VDDA vs LDOA Discontinuity [Measured Voltage [V]]","TID [MRad]", "VDDA vs LDOA Discontinuity");
-  marker_x_8 = Plot(datavTID_EXT_8.marker_xcoord,datavTID_EXT_8.MRad,"LDOA Setting","TID [MRad]", "Marker LDOA Setting");
-  marker_y_8 = Plot(datavTID_EXT_8.marker_ycoord,datavTID_EXT_8.MRad,"Measured Voltage [V]","TID [MRad]", "Marker Measured Voltage [V]");
-  marker_8 = Plot2D(datavTID_EXT_8.marker_xcoord,datavTID_EXT_8.marker_ycoord,datavTID_EXT_8.MRad,"LDOA Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_1_chip_008 = Draw_EXT_subpad1("EXT_subpad_1_chip_008",VDDA_vs_LDOA_disc_x_8,"AP",VDDA_vs_LDOA_disc_y_8,"AP",VDDA_vs_LDOA_disc_8,"colz",marker_x_8,"AP",marker_y_8,"AP",marker_8,"colz");
+  marker_x_8_VDDA = Plot(datavTID_EXT_8.marker_xcoord_VDDA,datavTID_EXT_8.MRad,"LDOA Setting","TID [MRad]", "Marker LDOA Setting");
+  marker_y_8_VDDA = Plot(datavTID_EXT_8.marker_ycoord_VDDA,datavTID_EXT_8.MRad,"Measured Voltage [V]","TID [MRad]", "Marker Measured Voltage [V]");
+  marker_8_VDDA = Plot2D(datavTID_EXT_8.marker_xcoord_VDDA,datavTID_EXT_8.marker_ycoord_VDDA,datavTID_EXT_8.MRad,"LDOA Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
+  TCanvas *EXT_subpad_1_chip_008 = Draw_EXT_subpad1("EXT_subpad_1_chip_008",VDDA_vs_LDOA_disc_x_8,"AP",VDDA_vs_LDOA_disc_y_8,"AP",VDDA_vs_LDOA_disc_8,"colz",marker_x_8_VDDA,"AP",marker_y_8_VDDA,"AP",marker_8_VDDA,"colz");
   
   
   //EXTsubpad 1 chip 009
   TGraph *VDDA_vs_LDOA_disc_x_9;
   TGraph *VDDA_vs_LDOA_disc_y_9;
   TGraph2D *VDDA_vs_LDOA_disc_9;
-  TGraph *marker_x_9;
-  TGraph *marker_y_9;
-  TGraph2D *marker_9;  
+  TGraph *marker_x_9_VDDA;
+  TGraph *marker_y_9_VDDA;
+  TGraph2D *marker_9_VDDA;  
   VDDA_vs_LDOA_disc_x_9 = Plot(datavTID_EXT_9.VDDA_vs_LDOA_disc_x, datavTID_EXT_9.MRad, "VDDA vs LDOA Discontinuity [LDOA Setting]","TID [MRAD]", "VDDA vs LDOA Discontinuity [LDOA setting]");
   VDDA_vs_LDOA_disc_y_9 = Plot(datavTID_EXT_9.VDDA_vs_LDOA_disc_y, datavTID_EXT_9.MRad, "VDDA vs LDOA Discontinuity [Measured Voltage [V]]","TID [MRAD]", "VDDA vs LDOA Discontinuity [Measured Voltage [V]]");
   VDDA_vs_LDOA_disc_9 = Plot2D(datavTID_EXT_9.VDDA_vs_LDOA_disc_x, datavTID_EXT_9.VDDA_vs_LDOA_disc_y, datavTID_EXT_9.MRad, "VDDA vs LDOA Discontinuity [LDOA Setting]","VDDA vs LDOA Discontinuity [Measured Voltage [V]]","TID [MRad]", "VDDA vs LDOA Discontinuity");
-  marker_x_9 = Plot(datavTID_EXT_9.marker_xcoord,datavTID_EXT_9.MRad,"LDOA Setting","TID [MRad]", "Marker LDOA Setting");
-  marker_y_9 = Plot(datavTID_EXT_9.marker_ycoord,datavTID_EXT_9.MRad,"Measured Voltage [V]","TID [MRad]", "Marker Measured Voltage [V]");
-  marker_9 = Plot2D(datavTID_EXT_9.marker_xcoord,datavTID_EXT_9.marker_ycoord,datavTID_EXT_9.MRad,"LDOA Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_1_chip_009 = Draw_EXT_subpad1("EXT_subpad_1_chip_009",VDDA_vs_LDOA_disc_x_9,"AP",VDDA_vs_LDOA_disc_y_9,"AP",VDDA_vs_LDOA_disc_9,"colz",marker_x_9,"AP",marker_y_9,"AP",marker_9,"colz");
+  marker_x_9_VDDA = Plot(datavTID_EXT_9.marker_xcoord_VDDA,datavTID_EXT_9.MRad,"LDOA Setting","TID [MRad]", "Marker LDOA Setting");
+  marker_y_9_VDDA = Plot(datavTID_EXT_9.marker_ycoord_VDDA,datavTID_EXT_9.MRad,"Measured Voltage [V]","TID [MRad]", "Marker Measured Voltage [V]");
+  marker_9_VDDA = Plot2D(datavTID_EXT_9.marker_xcoord_VDDA,datavTID_EXT_9.marker_ycoord_VDDA,datavTID_EXT_9.MRad,"LDOA Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
+  TCanvas *EXT_subpad_1_chip_009 = Draw_EXT_subpad1("EXT_subpad_1_chip_009",VDDA_vs_LDOA_disc_x_9,"AP",VDDA_vs_LDOA_disc_y_9,"AP",VDDA_vs_LDOA_disc_9,"colz",marker_x_9_VDDA,"AP",marker_y_9_VDDA,"AP",marker_9_VDDA,"colz");
+
+  //EXTsubpad 2 chip 008
+  TGraph *VDDD_vs_LDOD_disc_x_8;
+  TGraph *VDDD_vs_LDOD_disc_y_8;
+  TGraph2D *VDDD_vs_LDOD_disc_8;
+  TGraph *marker_x_8_VDDD;
+  TGraph *marker_y_8_VDDD;
+  TGraph2D *marker_8_VDDD;
+  VDDD_vs_LDOD_disc_x_8 = Plot(datavTID_EXT_8.VDDD_vs_LDOD_disc_x, datavTID_EXT_8.MRad, "VDDD vs LDOD Discontinuity [LDOD Setting]","TID [MRAD]", "VDDD vs LDOD Discontinuity [LDOD setting]");
+  VDDD_vs_LDOD_disc_y_8 = Plot(datavTID_EXT_8.VDDD_vs_LDOD_disc_y, datavTID_EXT_8.MRad, "VDDD vs LDOD Discontinuity [Measured Voltage [V]]","TID [MRAD]", "VDDD vs LDOD Discontinuity [Measured Voltage [V]]");
+  VDDD_vs_LDOD_disc_8 = Plot2D(datavTID_EXT_8.VDDD_vs_LDOD_disc_x, datavTID_EXT_8.VDDD_vs_LDOD_disc_y, datavTID_EXT_8.MRad, "VDDD vs LDOD Discontinuity [LDOD Setting]","VDDD vs LDOD Discontinuity [Measured Voltage [V]]","TID [MRad]", "VDDD vs LDOD Discontinuity");
+  marker_x_8_VDDD = Plot(datavTID_EXT_8.marker_xcoord_VDDD,datavTID_EXT_8.MRad,"LDOD Setting","TID [MRad]", "Marker LDOD Setting");
+  marker_y_8_VDDD = Plot(datavTID_EXT_8.marker_ycoord_VDDD,datavTID_EXT_8.MRad,"Measured Voltage [V]","TID [MRad]", "Marker Measured Voltage [V]");
+  marker_8_VDDD = Plot2D(datavTID_EXT_8.marker_xcoord_VDDD,datavTID_EXT_8.marker_ycoord_VDDD,datavTID_EXT_8.MRad,"LDOD Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
+  TCanvas *EXT_subpad_2_chip_008 = Draw_EXT_subpad1("EXT_subpad_2_chip_008",VDDD_vs_LDOD_disc_x_8,"AP",VDDD_vs_LDOD_disc_y_8,"AP",VDDD_vs_LDOD_disc_8,"colz",marker_x_8_VDDD,"AP",marker_y_8_VDDD,"AP",marker_8_VDDD,"colz");
+  
+  //EXTsubpad 2 chip 009
+  TGraph *VDDD_vs_LDOD_disc_x_9;
+  TGraph *VDDD_vs_LDOD_disc_y_9;
+  TGraph2D *VDDD_vs_LDOD_disc_9;
+  TGraph *marker_x_9_VDDD;
+  TGraph *marker_y_9_VDDD;
+  TGraph2D *marker_9_VDDD;
+  VDDD_vs_LDOD_disc_x_9 = Plot(datavTID_EXT_9.VDDD_vs_LDOD_disc_x, datavTID_EXT_9.MRad, "VDDD vs LDOD Discontinuity [LDOD Setting]","TID [MRAD]", "VDDD vs LDOD Discontinuity [LDOD setting]");
+  VDDD_vs_LDOD_disc_y_9 = Plot(datavTID_EXT_9.VDDD_vs_LDOD_disc_y, datavTID_EXT_9.MRad, "VDDD vs LDOD Discontinuity [Measured Voltage [V]]","TID [MRAD]", "VDDD vs LDOD Discontinuity [Measured Voltage [V]]");
+  VDDD_vs_LDOD_disc_9 = Plot2D(datavTID_EXT_9.VDDD_vs_LDOD_disc_x, datavTID_EXT_9.VDDD_vs_LDOD_disc_y, datavTID_EXT_9.MRad, "VDDD vs LDOD Discontinuity [LDOD Setting]","VDDD vs LDOD Discontinuity [Measured Voltage [V]]","TID [MRad]", "VDDD vs LDOD Discontinuity");
+  marker_x_9_VDDD = Plot(datavTID_EXT_9.marker_xcoord_VDDD,datavTID_EXT_9.MRad,"LDOD Setting","TID [MRad]", "Marker LDOD Setting");
+  marker_y_9_VDDD = Plot(datavTID_EXT_9.marker_ycoord_VDDD,datavTID_EXT_9.MRad,"Measured Voltage [V]","TID [MRad]", "Marker Measured Voltage [V]");
+  marker_9_VDDD = Plot2D(datavTID_EXT_9.marker_xcoord_VDDD,datavTID_EXT_9.marker_ycoord_VDDD,datavTID_EXT_9.MRad,"LDOD Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
+  TCanvas *EXT_subpad_2_chip_009 = Draw_EXT_subpad1("EXT_subpad_2_chip_009",VDDD_vs_LDOD_disc_x_9,"AP",VDDD_vs_LDOD_disc_y_9,"AP",VDDD_vs_LDOD_disc_9,"colz",marker_x_9_VDDD,"AP",marker_y_9_VDDD,"AP",marker_9_VDDD,"colz");
   
   std::cout<<"================================================================================================\n"<<std::endl;	      
   std::cout<<"Total number of files read = "<<filecount<<std::endl;
   std::cout<<"Total number of files processed = "<<processedfilecount<<std::endl;
   std::cout<<"Total number of files rejected  = "<<filecount-processedfilecount<<std::endl;
+  std::cout<<"\n";
+  std::cout<<"Total number of pads read = "<<padcount<<std::endl;
+  std::cout<<"Total number of pads processed = "<<processedpadcount<<std::endl;
+  std::cout<<"Total number of pads rejected = "<<padcount-processedpadcount<<std::endl;
+  std::cout<<"\n";
+  std::cout<<"Ratio pads:files read = " << (padcount*1.)/(filecount*1.)<<std::endl;
+  std::cout<<"Ratio pads:files processed = " << (processedpadcount*1.)/(processedfilecount*1.)<<std::endl;
+  std::cout<<"Ratio pads:files rejected = " << ((padcount-processedpadcount)*1.)/((filecount-processedfilecount)*1.)<<std::endl;
   std::cout<<"\n";
 }

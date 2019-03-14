@@ -13,6 +13,8 @@ struct Data
   double MRad;  
   double marker_xcoord;
   double marker_ycoord;
+  double TRDACfitp0;
+  double TRDACfitp1;
 
   bool init_check;
 };
@@ -89,7 +91,20 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       else if(data.init_check == false){std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;}
     }
 
-  std::cout<<padName<<"\t"<<graphName<<std::endl;
+  std::cout<<padName<<"\t"<<graphName;
+  //Fit graph (if relevant)
+  TH1F *fitcheck = (TH1F*)mysubpad->GetPrimitive("vhisto");
+  if(fitcheck == NULL)
+    {
+      std::cout<<": (No fit applied)"<<std::endl;
+    }
+  else if(fitcheck != NULL)
+    { 
+      TF1 *fit = new TF1("fit","pol1",0,500);
+      myTGraph->Fit(fit,"RN");
+      data.TRDACfitp0 = fit->GetParameter(0);
+      data.TRDACfitp1 = fit->GetParameter(1);
+    }
   
   data.padName = padName;
   data.graphName = graphName;
