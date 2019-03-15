@@ -73,22 +73,12 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       data.init_check = true;
       if(padName == "pad_plot_1")
 	{
-	  std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad";//<<std::endl;
+	  std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad"<<std::endl;
 	}
     }
   if((Time != std::string::npos && MRad == std::string::npos) || marker == NULL)
     {
       data.init_check = false;
-    }
-  
-  if(padName == "pad_plot_1")
-    {
-      std::string failreason = "";
-      if(MRad == std::string::npos){failreason = "No TID data";}
-      if(marker == NULL){failreason = "Anomalous data";}
-      if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
-      if(data.init_check == true){std::cout<<"\t\t | Pass"<<std::endl;}
-      else if(data.init_check == false){std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;}
     }
 
   std::cout<<padName<<"\t"<<graphName;
@@ -96,7 +86,7 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TH1F *fitcheck = (TH1F*)mysubpad->GetPrimitive("vhisto");
   if(fitcheck == NULL)
     {
-      std::cout<<": (No fit applied)"<<std::endl;
+      std::cout<<": (No fit applied)";//<<std::endl;
     }
   else if(fitcheck != NULL)
     { 
@@ -105,6 +95,18 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       data.TRDACfitp0 = fit->GetParameter(0);
       data.TRDACfitp1 = fit->GetParameter(1);
     }
+  
+  if(padName == "pad_plot_3" && Time != std::string::npos && MRad != std::string::npos && data.TRDACfitp1 > 0.001 && data.TRDACfitp0 > 0.001)
+    {
+      data.init_check = true;
+    }
+  
+  std::string failreason = "";
+  if(MRad == std::string::npos){failreason = "No TID data";}
+  if(marker == NULL){failreason = "Anomalous data";}
+  if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
+  if(data.init_check == true){std::cout<<"\t\t | Pass"<<std::endl;}
+  else if(data.init_check == false){std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;}
   
   data.padName = padName;
   data.graphName = graphName;
