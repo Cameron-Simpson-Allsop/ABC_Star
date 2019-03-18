@@ -13,8 +13,8 @@ struct Data
   double MRad;  
   double marker_xcoord;
   double marker_ycoord;
-  double TRDACfitp0;
-  double TRDACfitp1;
+  double redfitp0;
+  double redfitp1;
 
   bool init_check;
 };
@@ -31,7 +31,7 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TFile *file = TFile::Open(filePath);
   TCanvas *ADCScanCanvas = (TCanvas *)file->Get("ADCScanCanvas");
   if(ADCScanCanvas == NULL){std::cout<<"Canvas is null..."<<std::endl; return data;}
-  ADCScanCanvas->Draw();
+  //ADCScanCanvas->Draw();
   //if(i==0){ADCScanCanvas->ls();}
   
   //Extract TGraph values from pad 		      
@@ -92,11 +92,11 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
     { 
       TF1 *fit = new TF1("fit","pol1",0,500);
       myTGraph->Fit(fit,"QRN");
-      data.TRDACfitp0 = fit->GetParameter(0);
-      data.TRDACfitp1 = fit->GetParameter(1);
+      data.redfitp0 = fit->GetParameter(0);
+      data.redfitp1 = fit->GetParameter(1);
     }
   
-  if(padName == "pad_plot_3" && Time != std::string::npos && MRad != std::string::npos && data.TRDACfitp1 > 0.001 && data.TRDACfitp0 > 0.001)
+  if(padName == "pad_plot_3" && Time != std::string::npos && MRad != std::string::npos && data.redfitp1 > 0.001 && data.redfitp0 > 0.001)
     {
       data.init_check = true;
     }

@@ -8,12 +8,10 @@ struct TID_Data
   double VDDD_vs_LDOD_disc_y;
   double timeStamp;
   double MRad;
-  double marker_xcoord_VDDD;
-  double marker_ycoord_VDDD;  
-  double marker_xcoord_VDDA;
-  double marker_ycoord_VDDA;
-  double TRDACfitp0;
-  double TRDACfitp1;
+  double marker_xcoord;
+  double marker_ycoord; 
+  double redfitp0;
+  double redfitp1;
 
   bool init_check;
 };
