@@ -55,7 +55,10 @@ void wafer_analysis()
   //Find list of files
   fstream fileList;
   fileList.open("../../wafer/FileList.txt");
-  if(!fileList.good()){std::cout<<"Error fetching files..."<<std::endl;}
+  if(!fileList.good())
+    {
+      std::cout<<"Error fetching files..."<<std::endl;
+    }
   std::string line{""};  
   int filecount{0};
   int processedfilecount{0};
@@ -85,8 +88,8 @@ void wafer_analysis()
 	  else if(!inFile->IsZombie())
 	    {
 	      ++filecount;
-	      std::cout<<"================================================================================================"<<std::endl;
-	      std::cout<<fileName+fileSuffix<<std::endl;
+	      //std::cout<<"================================================================================================"<<std::endl;
+	      //std::cout<<fileName+fileSuffix<<std::endl;
 	      //Extract data from file
 	      for(int i{0}; i<3; ++i)
 		{
@@ -148,7 +151,7 @@ void wafer_analysis()
 			}
 		      else
 			{
-			  std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 			}
 		      break;
 
@@ -174,7 +177,7 @@ void wafer_analysis()
 			}
 		      else
 			{
-			  std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 			}
 		      break;
 
@@ -194,12 +197,12 @@ void wafer_analysis()
 			}
 		      else
 			{
-			  std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 			}
 		      break;
 		    }
 		}
-	      std::cout<<"================================================================================================"<<std::endl;	      
+	      //std::cout<<"================================================================================================"<<std::endl;	      
 	    }
 	}
       else if(INT != std::string::npos && EXT == std::string::npos)
@@ -207,14 +210,6 @@ void wafer_analysis()
 	  //++filecount;
 	}
     }
-
-  // TGraph *time_vs_TID_EXT = new TGraph(datavTID_EXT.timeStamp.size(), &(datavTID_EXT.timeStamp[0]), &(datavTID_EXT.MRad[0]));
-  // time_vs_TID_EXT->GetXaxis()->SetTitle("Time stamp");
-  // time_vs_TID_EXT->GetYaxis()->SetTitle("TID [MRad]");
-  // time_vs_TID_EXT->SetTitle("");
-  // time_vs_TID_EXT->SetMarkerStyle(20);
-  // TCanvas *time_vs_TID_canvas = new TCanvas("Time_vs_TID_EXT","Time_vs_TID_EXT",600,600);
-  // time_vs_TID_EXT->Draw("AP");
 
   //EXT timestamp vs TID
   TGraph *timestamp_TID_8 = new TGraph(datavTID_EXT_8.timeStamp.size(),&(datavTID_EXT_8.timeStamp[0]),&(datavTID_EXT_8.MRad[0]));

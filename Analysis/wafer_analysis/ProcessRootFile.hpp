@@ -73,7 +73,7 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       data.init_check = true;
       if(padName == "pad_plot_1")
 	{
-	  std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad"<<std::endl;
+	  //std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad"<<std::endl;
 	}
     }
   if((Time != std::string::npos && MRad == std::string::npos) || marker == NULL)
@@ -81,17 +81,17 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       data.init_check = false;
     }
 
-  std::cout<<padName<<"\t"<<graphName;
+  //std::cout<<padName<<"\t"<<graphName;
   //Fit graph (if relevant)
   TH1F *fitcheck = (TH1F*)mysubpad->GetPrimitive("vhisto");
   if(fitcheck == NULL)
     {
-      std::cout<<": (No fit applied)";//<<std::endl;
+      //std::cout<<": (No fit applied)";//<<std::endl;
     }
   else if(fitcheck != NULL)
     { 
       TF1 *fit = new TF1("fit","pol1",0,500);
-      myTGraph->Fit(fit,"RN");
+      myTGraph->Fit(fit,"QRN");
       data.TRDACfitp0 = fit->GetParameter(0);
       data.TRDACfitp1 = fit->GetParameter(1);
     }
@@ -105,8 +105,14 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   if(MRad == std::string::npos){failreason = "No TID data";}
   if(marker == NULL){failreason = "Anomalous data";}
   if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
-  if(data.init_check == true){std::cout<<"\t\t | Pass"<<std::endl;}
-  else if(data.init_check == false){std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;}
+  if(data.init_check == true)
+    {
+      //std::cout<<"\t\t | Pass"<<std::endl;
+    }
+  else if(data.init_check == false)
+    {
+      //std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;
+    }
   
   data.padName = padName;
   data.graphName = graphName;
