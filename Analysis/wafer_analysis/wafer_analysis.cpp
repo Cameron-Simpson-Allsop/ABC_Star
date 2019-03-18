@@ -131,8 +131,8 @@ void wafer_analysis()
 		      //limits to ignore any uninitialised variables (Some files have no TID data)
 		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 			{
-			  datavTID_EXT_8.VDDA_vs_LDOA_disc_x.push_back(TID.VDDA_vs_LDOA_disc_x);
-			  datavTID_EXT_8.VDDA_vs_LDOA_disc_y.push_back(TID.VDDA_vs_LDOA_disc_y);
+			  datavTID_EXT_8.VDDA_vs_LDOA_disc_x.push_back(TID.disc_x);
+			  datavTID_EXT_8.VDDA_vs_LDOA_disc_y.push_back(TID.disc_y);
 			  datavTID_EXT_8.timeStamp.push_back(TID.timeStamp);
 			  datavTID_EXT_8.MRad.push_back(TID.MRad);
 			  datavTID_EXT_8.marker_xcoord_VDDA.push_back(TID.marker_xcoord);
@@ -143,8 +143,8 @@ void wafer_analysis()
 			}
 		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
 			{
-			  datavTID_EXT_9.VDDA_vs_LDOA_disc_x.push_back(TID.VDDA_vs_LDOA_disc_x);
-			  datavTID_EXT_9.VDDA_vs_LDOA_disc_y.push_back(TID.VDDA_vs_LDOA_disc_y);
+			  datavTID_EXT_9.VDDA_vs_LDOA_disc_x.push_back(TID.disc_x);
+			  datavTID_EXT_9.VDDA_vs_LDOA_disc_y.push_back(TID.disc_y);
 			  datavTID_EXT_9.timeStamp.push_back(TID.timeStamp);
 			  datavTID_EXT_9.MRad.push_back(TID.MRad);
 			  datavTID_EXT_9.marker_xcoord_VDDA.push_back(TID.marker_xcoord);
@@ -163,8 +163,8 @@ void wafer_analysis()
 		      TID = Functions(graphName[i],padName,fileName,data,i);
 		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 			{
-			  datavTID_EXT_8.VDDD_vs_LDOD_disc_x.push_back(TID.VDDD_vs_LDOD_disc_x);
-			  datavTID_EXT_8.VDDD_vs_LDOD_disc_y.push_back(TID.VDDD_vs_LDOD_disc_y);
+			  datavTID_EXT_8.VDDD_vs_LDOD_disc_x.push_back(TID.disc_x);
+			  datavTID_EXT_8.VDDD_vs_LDOD_disc_y.push_back(TID.disc_y);
 			  datavTID_EXT_8.marker_xcoord_VDDD.push_back(TID.marker_xcoord);
 			  datavTID_EXT_8.marker_ycoord_VDDD.push_back(TID.marker_ycoord);
 			  //std::cout<<"Chip 008"<<std::endl;
@@ -172,8 +172,8 @@ void wafer_analysis()
 			}
 		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
 			{
-			  datavTID_EXT_9.VDDD_vs_LDOD_disc_x.push_back(TID.VDDD_vs_LDOD_disc_x);
-			  datavTID_EXT_9.VDDD_vs_LDOD_disc_y.push_back(TID.VDDD_vs_LDOD_disc_y);
+			  datavTID_EXT_9.VDDD_vs_LDOD_disc_x.push_back(TID.disc_x);
+			  datavTID_EXT_9.VDDD_vs_LDOD_disc_y.push_back(TID.disc_y);
 			  datavTID_EXT_9.marker_xcoord_VDDD.push_back(TID.marker_xcoord);
 			  datavTID_EXT_9.marker_ycoord_VDDD.push_back(TID.marker_ycoord);
 			  //std::cout<<"Chip 009"<<std::endl;
@@ -262,7 +262,8 @@ void wafer_analysis()
   timestamp_TID_leg->SetTextSize(0.02);
   timestamp_TID_leg->SetFillStyle(1000);
   timestamp_TID_leg->SetTextFont(42);
-  timestamp_TID_leg->SetNColumns(1);  timestamp_TID->Draw("AP");
+  timestamp_TID_leg->SetNColumns(1);
+  timestamp_TID->Draw("AP");
   //timestamp_TID_leg->Draw("same");
   //timestamp_TID_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.root");
   //timestamp_TID_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.pdf");
