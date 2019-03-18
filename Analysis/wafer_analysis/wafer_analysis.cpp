@@ -18,11 +18,19 @@ struct Data_vs_TID_EXT
   std::vector<double> marker_xcoord_VDDA;
   std::vector<double> marker_ycoord_VDDA;  
   std::vector<double> marker_xcoord_VRef;
-  std::vector<double> marker_ycoord_VRef;
+  std::vector<double> marker_ycoord_VRef; 
+  std::vector<double> marker_xcoord_IRef;
+  std::vector<double> marker_ycoord_IRef; 
+  std::vector<double> marker_xcoord_R8B;
+  std::vector<double> marker_ycoord_R8B;
   std::vector<double> TRDACfitp0;
   std::vector<double> TRDACfitp1;
   std::vector<double> VReffitp0;
   std::vector<double> VReffitp1;
+  std::vector<double> IReffitp0;
+  std::vector<double> IReffitp1;
+  std::vector<double> R8Bfitp0;
+  std::vector<double> R8Bfitp1;
 };
 
 TGraph *Plot(std::vector<double> x, std::vector<double> y, TString xtitle, TString ytitle, TString title)
@@ -82,7 +90,6 @@ void wafer_analysis()
 	  TString fileName = line;
 	  
 	  TString filePath = filePrefix+fileName+fileSuffix;  
-	  TString padName;
 
 	  //Define graph names for each pad
 	  std::vector<TString> graphName = {"Graph","Graph","gTRDAC","gVRef","gIRef","gR8B","gVCD","gCALLINE","gTHDAC","gVTHTEST","gCOM","gDRIVE","gVB","gVTHREF"}; //gVB(same pad as gVCD) gVTHREF(same pad as gVTHTEST)
@@ -95,14 +102,15 @@ void wafer_analysis()
 	      //std::cout<<"================================================================================================"<<std::endl;
 	      //std::cout<<fileName+fileSuffix<<std::endl;
 	      //Extract data from file
-	      for(int i{0}; i<4; ++i)
+	      for(int i{0}; i<6; ++i)
 		{
 		  ++padcount;
 		  Data data;
 		  TID_Data TID;
-		  padName = padPrefix + std::to_string(i+1);
-		  if(i<graphName.size()-2)
+		  TString padName;
+		  if(i<graphName.size()-2) 
 		    {
+		      padName = padPrefix + std::to_string(i+1);
 		      data = ProcessRootFile(fileName,padName,graphName[i],i);
 		    }
 		  else if(i == graphName.size()-2)
@@ -137,7 +145,6 @@ void wafer_analysis()
 			  datavTID_EXT_8.MRad.push_back(TID.MRad);
 			  datavTID_EXT_8.marker_xcoord_VDDA.push_back(TID.marker_xcoord);
 			  datavTID_EXT_8.marker_ycoord_VDDA.push_back(TID.marker_ycoord);
-			  //std::cout<<"Chip 008"<<std::endl;
 			  ++processedfilecount;
 			  ++processedpadcount;
 			}
@@ -149,7 +156,6 @@ void wafer_analysis()
 			  datavTID_EXT_9.MRad.push_back(TID.MRad);
 			  datavTID_EXT_9.marker_xcoord_VDDA.push_back(TID.marker_xcoord);
 			  datavTID_EXT_9.marker_ycoord_VDDA.push_back(TID.marker_ycoord);
-			  //std::cout<<"Chip 009"<<std::endl;
 			  ++processedfilecount;
 			  ++processedpadcount;
 			}
@@ -228,6 +234,54 @@ void wafer_analysis()
 			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 			}
 		      break;
+
+		    case 4:
+		      TID = Functions(graphName[i],padName,fileName,data,i);
+		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+			{
+			  datavTID_EXT_8.IReffitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_8.IReffitp1.push_back(TID.redfitp1);
+			  datavTID_EXT_8.marker_xcoord_IRef.push_back(TID.marker_xcoord);
+			  datavTID_EXT_8.marker_ycoord_IRef.push_back(TID.marker_ycoord);
+			  ++processedpadcount;			  
+			}
+		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+			{
+			  datavTID_EXT_9.IReffitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_9.IReffitp1.push_back(TID.redfitp1);
+			  datavTID_EXT_9.marker_xcoord_IRef.push_back(TID.marker_xcoord);
+			  datavTID_EXT_9.marker_ycoord_IRef.push_back(TID.marker_ycoord);
+			  ++processedpadcount;
+			}
+		      else
+			{
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			}
+		      break;
+
+		    case 5:
+		      TID = Functions(graphName[i],padName,fileName,data,i);
+		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+			{
+			  datavTID_EXT_8.R8Bfitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_8.R8Bfitp1.push_back(TID.redfitp1);
+			  datavTID_EXT_8.marker_xcoord_R8B.push_back(TID.marker_xcoord);
+			  datavTID_EXT_8.marker_ycoord_R8B.push_back(TID.marker_ycoord);
+			  ++processedpadcount;			  
+			}
+		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+			{
+			  datavTID_EXT_9.R8Bfitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_9.R8Bfitp1.push_back(TID.redfitp1);
+			  datavTID_EXT_9.marker_xcoord_R8B.push_back(TID.marker_xcoord);
+			  datavTID_EXT_9.marker_ycoord_R8B.push_back(TID.marker_ycoord);
+			  ++processedpadcount;
+			}
+		      else
+			{
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			}
+		      break;
 		    }
 		}
 	      //std::cout<<"================================================================================================"<<std::endl;	      
@@ -239,6 +293,8 @@ void wafer_analysis()
 	}
     }
 
+  std::cout<<"================================================================================================"<<std::endl;
+  
   //EXT timestamp vs TID
   TGraph *timestamp_TID_8 = new TGraph(datavTID_EXT_8.timeStamp.size(),&(datavTID_EXT_8.timeStamp[0]),&(datavTID_EXT_8.MRad[0]));
   timestamp_TID_8->SetMarkerStyle(20);
@@ -367,9 +423,8 @@ void wafer_analysis()
   VRef_8 = Plot2D(datavTID_EXT_8.VReffitp0, datavTID_EXT_8.VReffitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","VRef Parameters");
   marker_x_8_VRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_VRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_8_VRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_VRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
-  marker_8_VRef = Plot2D(datavTID_EXT_8.marker_xcoord_VRef,datavTID_EXT_8.marker_ycoord_VRef,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_4_chip_008 = Draw_EXT_subpad1("EXT_subpad_4_chip_008",VRef_p0_8,"AP",VRef_p1_8,"AP",VRef_8,"colz",marker_x_8_VRef,"AP",marker_y_8_VRef,"AP",marker_8_VRef,"AP");
-  
+  marker_8_VRef = Plot2D(datavTID_EXT_8.marker_xcoord_VRef,datavTID_EXT_8.marker_ycoord_VRef,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
+  TCanvas *EXT_subpad_4_chip_008 = Draw_EXT_subpad1("EXT_subpad_4_chip_008",VRef_p0_8,"AP",VRef_p1_8,"AP",VRef_8,"colz",marker_x_8_VRef,"AP",marker_y_8_VRef,"AP",marker_8_VRef,"AP");  
   //EXTsubpad 4 chip 009
   TGraph *VRef_p0_9;
   TGraph *VRef_p1_9;
@@ -382,8 +437,70 @@ void wafer_analysis()
   VRef_9 = Plot2D(datavTID_EXT_9.VReffitp0, datavTID_EXT_9.VReffitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","VRef Parameters");
   marker_x_9_VRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_VRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_9_VRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_VRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
-  marker_9_VRef = Plot2D(datavTID_EXT_9.marker_xcoord_VRef,datavTID_EXT_9.marker_ycoord_VRef,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
+  marker_9_VRef = Plot2D(datavTID_EXT_9.marker_xcoord_VRef,datavTID_EXT_9.marker_ycoord_VRef,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
   TCanvas *EXT_subpad_4_chip_009 = Draw_EXT_subpad1("EXT_subpad_4_chip_009",VRef_p0_9,"AP",VRef_p1_9,"AP",VRef_9,"colz",marker_x_9_VRef,"AP",marker_y_9_VRef,"AP",marker_9_VRef,"AP");
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //EXTsubpad 5 chip 008
+  TGraph *IRef_p0_8;
+  TGraph *IRef_p1_8;
+  TGraph2D *IRef_8;
+  TGraph *marker_x_8_IRef;
+  TGraph *marker_y_8_IRef;
+  TGraph2D *marker_8_IRef;
+  IRef_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.IReffitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","IRef p0");
+  IRef_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.IReffitp1, "TID [MRad]","Parameter p1 [Gradieent]","IRef p1");
+  IRef_8 = Plot2D(datavTID_EXT_8.IReffitp0, datavTID_EXT_8.IReffitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","IRef Parameters");
+  marker_x_8_IRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_IRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
+  marker_y_8_IRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_IRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
+  marker_8_IRef = Plot2D(datavTID_EXT_8.marker_xcoord_IRef,datavTID_EXT_8.marker_ycoord_IRef,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
+  TCanvas *EXT_subpad_5_chip_008 = Draw_EXT_subpad1("EXT_subpad_5_chip_008",IRef_p0_8,"AP",IRef_p1_8,"AP",IRef_8,"colz",marker_x_8_IRef,"AP",marker_y_8_IRef,"AP",marker_8_IRef,"AP");  
+  //EXTsubpad 5 chip 009
+  TGraph *IRef_p0_9;
+  TGraph *IRef_p1_9;
+  TGraph2D *IRef_9;
+  TGraph *marker_x_9_IRef;
+  TGraph *marker_y_9_IRef;
+  TGraph2D *marker_9_IRef;
+  IRef_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.IReffitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","IRef p0");
+  IRef_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.IReffitp1, "TID [MRad]","Parameter p1 [Gradieent]","IRef p1");
+  IRef_9 = Plot2D(datavTID_EXT_9.IReffitp0, datavTID_EXT_9.IReffitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","IRef Parameters");
+  marker_x_9_IRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_IRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
+  marker_y_9_IRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_IRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
+  marker_9_IRef = Plot2D(datavTID_EXT_9.marker_xcoord_IRef,datavTID_EXT_9.marker_ycoord_IRef,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
+  TCanvas *EXT_subpad_5_chip_009 = Draw_EXT_subpad1("EXT_subpad_5_chip_009",IRef_p0_9,"AP",IRef_p1_9,"AP",IRef_9,"colz",marker_x_9_IRef,"AP",marker_y_9_IRef,"AP",marker_9_IRef,"AP");
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //EXTsubpad 6 chip 008
+  TGraph *R8B_p0_8;
+  TGraph *R8B_p1_8;
+  TGraph2D *R8B_8;
+  TGraph *marker_x_8_R8B;
+  TGraph *marker_y_8_R8B;
+  TGraph2D *marker_8_R8B;
+  R8B_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.R8Bfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","R8B p0");
+  R8B_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.R8Bfitp1, "TID [MRad]","Parameter p1 [Gradieent]","R8B p1");
+  R8B_8 = Plot2D(datavTID_EXT_8.R8Bfitp0, datavTID_EXT_8.R8Bfitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","R8B Parameters");
+  marker_x_8_R8B = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_R8B,"TID [MRad]","Variable Setting","Marker Variable Setting");
+  marker_y_8_R8B = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_R8B,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
+  marker_8_R8B = Plot2D(datavTID_EXT_8.marker_xcoord_R8B,datavTID_EXT_8.marker_ycoord_R8B,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
+  TCanvas *EXT_subpad_6_chip_008 = Draw_EXT_subpad1("EXT_subpad_6_chip_008",R8B_p0_8,"AP",R8B_p1_8,"AP",R8B_8,"colz",marker_x_8_R8B,"AP",marker_y_8_R8B,"AP",marker_8_R8B,"AP");  
+  //EXTsubpad 6 chip 009
+  TGraph *R8B_p0_9;
+  TGraph *R8B_p1_9;
+  TGraph2D *R8B_9;
+  TGraph *marker_x_9_R8B;
+  TGraph *marker_y_9_R8B;
+  TGraph2D *marker_9_R8B;
+  R8B_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.R8Bfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","R8B p0");
+  R8B_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.R8Bfitp1, "TID [MRad]","Parameter p1 [Gradieent]","R8B p1");
+  R8B_9 = Plot2D(datavTID_EXT_9.R8Bfitp0, datavTID_EXT_9.R8Bfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","R8B Parameters");
+  marker_x_9_R8B = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_R8B,"TID [MRad]","Variable Setting","Marker Variable Setting");
+  marker_y_9_R8B = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_R8B,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
+  marker_9_R8B = Plot2D(datavTID_EXT_9.marker_xcoord_R8B,datavTID_EXT_9.marker_ycoord_R8B,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
+  TCanvas *EXT_subpad_6_chip_009 = Draw_EXT_subpad1("EXT_subpad_6_chip_009",R8B_p0_9,"AP",R8B_p1_9,"AP",R8B_9,"colz",marker_x_9_R8B,"AP",marker_y_9_R8B,"AP",marker_9_R8B,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   

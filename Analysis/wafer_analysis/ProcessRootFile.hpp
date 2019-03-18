@@ -39,13 +39,12 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TPad *mysubpad = (TPad*)mypad->GetPrimitive(padName);
   //mysubpad1->ls();
   TGraphErrors *myTGraph = (TGraphErrors*)mysubpad->GetPrimitive(graphName);	      
-  for(int i = 0; i < myTGraph->GetN();++i)
+  for(int n = 0; n < myTGraph->GetN();++n)
     {
       double x,y;
-      myTGraph->GetPoint(i,x,y);
+      myTGraph->GetPoint(n,x,y);
       data.x.push_back(x);
       data.y.push_back(y);
-      //std::cout<<x<<"\t"<<y<<std::endl;
     }
 
   //Extract header from pad

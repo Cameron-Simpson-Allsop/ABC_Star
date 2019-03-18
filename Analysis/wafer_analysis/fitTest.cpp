@@ -3,6 +3,7 @@
 
 void fitTest()
 {
+  TRandom2 *rndm = new TRandom2();
   for(int n{0}; n<10; ++n)
     {
       std::vector<double> x;
@@ -10,14 +11,15 @@ void fitTest()
       int npoints = n+20;
       for(int i{0}; i<npoints; ++i)
 	{
+	  double tmp = rndm->Gaus(0,0.1);
 	  x.push_back(i);
 	  if(i<=(npoints*1.)/4.)
 	    {
-	      y.push_back(10);
+	      y.push_back(14.67+tmp);
 	    }
 	  else if(i>(npoints*1./4.))
 	    {
-	      y.push_back(10+(npoints*1./4.)-i);
+	      y.push_back(14.67+tmp+(npoints*1./4.)-i);
 	    }
 	}
 
