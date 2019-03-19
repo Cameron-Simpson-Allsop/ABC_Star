@@ -1,5 +1,3 @@
-#include <vector>
-
 struct TID_Data
 {
   double disc_x;

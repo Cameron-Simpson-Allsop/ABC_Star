@@ -47,7 +47,7 @@ TID_Data VDOAvsLDOA_VDDDvsLDOD(Data data)
   return TID;
 }
 
-TID_Data TRDAC(Data data)
+TID_Data TRDAC_VCD_CALLINE(Data data)
   {
     TID_Data TID;
     TID.timeStamp = data.timeStamp;
@@ -78,10 +78,12 @@ TID_Data Functions(TString graphName, TString padName, TString fileName, Data da
     {
     case 0: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
     case 1: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
-    case 2: TID = TRDAC(data); break;
+    case 2: TID = TRDAC_VCD_CALLINE(data); break;
     case 3: TID = Ref_R8B(data); break;
     case 4: TID = Ref_R8B(data); break;
     case 5: TID = Ref_R8B(data); break;
+    case 6: TID = TRDAC_VCD_CALLINE(data); break;
+    case 7: TID = TRDAC_VCD_CALLINE(data); break;
     }
 
   return TID;
