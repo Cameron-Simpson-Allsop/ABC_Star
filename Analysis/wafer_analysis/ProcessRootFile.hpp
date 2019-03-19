@@ -95,11 +95,11 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
       data.redfitp1 = fit->GetParameter(1);
     }
   
-  if((padName == "pad_plot_3" || padName == "pad_plot_7" || padName == "pad_plot_9" || padName == "pad_plot_10" || padName == "pad_plot_12") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.001 && abs(data.redfitp0) > 0.001)
+  if((padName == "pad_plot_3" || padName == "pad_plot_7" || padName == "pad_plot_10" || padName == "pad_plot_12") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.001 && abs(data.redfitp0) > 0.001)
     {
       data.init_check = true;
     }
-  if(padName == "pad_plot_8" && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.0001)
+  if((padName == "pad_plot_8" || padName == "pad_plot_9") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.0001)
     {
       data.init_check = true;
     }

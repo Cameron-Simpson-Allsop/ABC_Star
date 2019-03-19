@@ -23,7 +23,7 @@ TID_Data VDOAvsLDOA_VDDDvsLDOD(Data data)
 	  n=data.x.size()-4;
 	}
     }
-  if(data.init_check == true /*&& (padName == "pad_plot_1" || padName == "pad_plot_2")*/)
+  if(data.init_check == true)
     {
       TF1 *fitlower = new TF1("fitlower","pol1",0,TID.disc_x);
       TF1 *fitupper = new TF1("fitupper","pol1",TID.disc_x,20);
@@ -47,7 +47,7 @@ TID_Data VDOAvsLDOA_VDDDvsLDOD(Data data)
   return TID;
 }
 
-TID_Data TRDAC_VCD_CALLINE(Data data)
+TID_Data TRDAC_VCD_CALLINE_VTHTEST(Data data)
   {
     TID_Data TID;
     TID.timeStamp = data.timeStamp;
@@ -78,12 +78,13 @@ TID_Data Functions(TString graphName, TString padName, TString fileName, Data da
     {
     case 0: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
     case 1: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
-    case 2: TID = TRDAC_VCD_CALLINE(data); break;
+    case 2: TID = TRDAC_VCD_CALLINE_VTHTEST(data); break;
     case 3: TID = Ref_R8B(data); break;
     case 4: TID = Ref_R8B(data); break;
     case 5: TID = Ref_R8B(data); break;
-    case 6: TID = TRDAC_VCD_CALLINE(data); break;
-    case 7: TID = TRDAC_VCD_CALLINE(data); break;
+    case 6: TID = TRDAC_VCD_CALLINE_VTHTEST(data); break;
+    case 7: TID = TRDAC_VCD_CALLINE_VTHTEST(data); break;
+    case 8: TID = TRDAC_VCD_CALLINE_VTHTEST(data); break;
     }
 
   return TID;

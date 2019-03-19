@@ -35,6 +35,8 @@ struct Data_vs_TID_EXT
   std::vector<double> VCDfitp1;
   std::vector<double> CALLINEfitp0;
   std::vector<double> CALLINEfitp1;
+  std::vector<double> VTHTESTfitp0;
+  std::vector<double> VTHTESTfitp1;
 };
 
 TGraph *Plot(std::vector<double> x, std::vector<double> y, TString xtitle, TString ytitle, TString title)
@@ -106,7 +108,7 @@ void wafer_analysis()
 	      //std::cout<<"================================================================================================"<<std::endl;
 	      //std::cout<<fileName+fileSuffix<<std::endl;
 	      //Extract data from file
-	      for(int i{0}; i<8; ++i)
+	      for(int i{0}; i<9; ++i)
 		{
 		  ++padcount;
 		  Data data;
@@ -319,6 +321,26 @@ void wafer_analysis()
 			{
 			  datavTID_EXT_9.CALLINEfitp0.push_back(TID.redfitp0);
 			  datavTID_EXT_9.CALLINEfitp1.push_back(TID.redfitp1);
+			  ++processedpadcount;
+			}
+		      else
+			{
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			}
+		      break;
+
+		    case 8:
+		      TID = Functions(graphName[i],padName,fileName,data,i);
+		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+			{
+			  datavTID_EXT_8.VTHTESTfitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_8.VTHTESTfitp1.push_back(TID.redfitp1);
+			  ++processedpadcount;
+			}
+		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+			{
+			  datavTID_EXT_9.VTHTESTfitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_9.VTHTESTfitp1.push_back(TID.redfitp1);
 			  ++processedpadcount;
 			}
 		      else
@@ -583,6 +605,25 @@ void wafer_analysis()
   CALLINE_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.CALLINEfitp1, "TID [MRad]","Parameter p1 [Gradieent]","CALLINE p1");
   CALLINE_9 = Plot2D(datavTID_EXT_9.CALLINEfitp0, datavTID_EXT_9.CALLINEfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","CALLINE Parameters");
   TCanvas *EXT_subpad_8_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_8_chip_009",CALLINE_p0_9,"AP",CALLINE_p1_9,"AP",CALLINE_9,"colz");
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //EXTsubpad 9 chip 008
+  TGraph *VTHTEST_p0_8;
+  TGraph *VTHTEST_p1_8;
+  TGraph2D *VTHTEST_8;
+  VTHTEST_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VTHTESTfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VTHTEST p0");
+  VTHTEST_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VTHTESTfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VTHTEST p1");
+  VTHTEST_8 = Plot2D(datavTID_EXT_8.VTHTESTfitp0, datavTID_EXT_8.VTHTESTfitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","VTHTEST Parameters");
+  TCanvas *EXT_subpad_9_chip_008 = Draw_EXT_subpad_3pads("EXT_subpad_9_chip_008",VTHTEST_p0_8,"AP",VTHTEST_p1_8,"AP",VTHTEST_8,"colz");
+  //EXTsubpad 9 chip 009
+  TGraph *VTHTEST_p0_9;
+  TGraph *VTHTEST_p1_9;
+  TGraph2D *VTHTEST_9;
+  VTHTEST_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VTHTESTfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VTHTEST p0");
+  VTHTEST_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VTHTESTfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VTHTEST p1");
+  VTHTEST_9 = Plot2D(datavTID_EXT_9.VTHTESTfitp0, datavTID_EXT_9.VTHTESTfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","VTHTEST Parameters");
+  TCanvas *EXT_subpad_9_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_9_chip_009",VTHTEST_p0_9,"AP",VTHTEST_p1_9,"AP",VTHTEST_9,"colz");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
