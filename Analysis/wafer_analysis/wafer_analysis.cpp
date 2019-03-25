@@ -45,6 +45,8 @@ struct Data_vs_TID_EXT
   std::vector<double> VTHTESTfitp3;
   std::vector<double> COMfitp0;
   std::vector<double> COMfitp1;
+  std::vector<double> DRIVEfitp0;
+  std::vector<double> DRIVEfitp1;
 };
 
 TGraph *Plot(std::vector<double> x, std::vector<double> y, TString xtitle, TString ytitle, TString title)
@@ -122,7 +124,7 @@ void wafer_analysis()
 	      //std::cout<<"================================================================================================"<<std::endl;
 	      //std::cout<<fileName+fileSuffix<<std::endl;
 	      //Extract data from file
-	      for(int i{0}; i<11; ++i)
+	      for(int i{0}; i<graphName.size()-2; ++i)
 		{
 		  ++padcount;
 		  Data data;
@@ -403,6 +405,26 @@ void wafer_analysis()
 			  datavTID_EXT_9.COMfitp1.push_back(TID.redfitp1);
 			  datavTID_EXT_9.marker_xcoord_COM.push_back(TID.marker_xcoord);
 			  datavTID_EXT_9.marker_ycoord_COM.push_back(TID.marker_ycoord);
+			  ++processedpadcount;
+			}
+		      else
+			{
+			  //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+			}
+		      break;
+
+		    case 11:
+		      TID = Functions(graphName[i],padName,fileName,data,i);
+		      if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+			{
+			  datavTID_EXT_8.DRIVEfitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_8.DRIVEfitp1.push_back(TID.redfitp1);
+			  ++processedpadcount;			  
+			}
+		      else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+			{
+			  datavTID_EXT_9.DRIVEfitp0.push_back(TID.redfitp0);
+			  datavTID_EXT_9.DRIVEfitp1.push_back(TID.redfitp1);
 			  ++processedpadcount;
 			}
 		      else
@@ -735,11 +757,30 @@ void wafer_analysis()
   TGraph2D *marker_9_COM;
   COM_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.COMfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","COM p0");
   COM_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.COMfitp1, "TID [MRad]","Parameter p1 [Gradieent]","COM p1");
-  COM_9 = Plot2D(datavTID_EXT_9.COMfitp0, datavTID_EXT_9.COMfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","COM Parameters");
+  COM_9 = Plot2D(datavTID_EXT_9.COMfitp0, datavTID_EXT_9.COMfitp1, datavTID_EXT_9.MRad,"Parameter p0 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","COM Parameters");
   marker_x_9_COM = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_COM,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_9_COM = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_COM,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_COM = Plot2D(datavTID_EXT_9.marker_xcoord_COM,datavTID_EXT_9.marker_ycoord_COM,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
   TCanvas *EXT_subpad_11_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_11_chip_009",COM_p0_9,"AP",COM_p1_9,"AP",COM_9,"colz",marker_x_9_COM,"AP",marker_y_9_COM,"AP",marker_9_COM,"AP");
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //EXT subpad 12 chip 008
+  TGraph *DRIVE_p0_8;
+  TGraph *DRIVE_p1_8;
+  TGraph2D *DRIVE_8;
+  DRIVE_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.DRIVEfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","DRIVE p0");
+  DRIVE_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.DRIVEfitp1, "TID [MRad]","Parameter p1 [Gradieent]","DRIVE p1");
+  DRIVE_8 = Plot2D(datavTID_EXT_8.DRIVEfitp0, datavTID_EXT_8.DRIVEfitp1, datavTID_EXT_8.MRad,"Parameter p0 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","DRIVE Parameters");
+  TCanvas *EXT_subpad_12_chip_008 = Draw_EXT_subpad_3pads("EXT_subpad_12_chip_008",DRIVE_p0_8,"AP",DRIVE_p1_8,"AP",DRIVE_8,"colz");
+  //EXT subpad 12 chip 009
+  TGraph *DRIVE_p0_9;
+  TGraph *DRIVE_p1_9;
+  TGraph2D *DRIVE_9;
+  DRIVE_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.DRIVEfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","DRIVE p0");
+  DRIVE_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.DRIVEfitp1, "TID [MRad]","Parameter p1 [Gradieent]","DRIVE p1");
+  DRIVE_9 = Plot2D(datavTID_EXT_9.DRIVEfitp0, datavTID_EXT_9.DRIVEfitp1, datavTID_EXT_9.MRad,"Parameter p0 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","DRIVE Parameters");
+  TCanvas *EXT_subpad_12_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_12_chip_009",DRIVE_p0_9,"AP",DRIVE_p1_9,"AP",DRIVE_9,"colz");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   

@@ -87,6 +87,20 @@ TID_Data VTHTEST(Data data)
   return TID;
 }
 
+TID_Data DRIVE(Data data)
+{
+  TID_Data TID;
+  TID.timeStamp = data.timeStamp;
+  TID.MRad = data.MRad;
+  TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
+  TF1 *fit = new TF1("fit","pol1",0,10);
+  g->Fit(fit,"QRN");
+  TID.redfitp0 = fit->GetParameter(0);
+  TID.redfitp1 = fit->GetParameter(1);
+  TID.init_check = data.init_check;
+  return TID;
+}
+
 TID_Data Functions(TString graphName, TString padName, TString fileName, Data data, int function)
 {
   TID_Data TID;
@@ -103,6 +117,7 @@ TID_Data Functions(TString graphName, TString padName, TString fileName, Data da
     case 8: TID = TRDAC_VCD_CALLINE_THDAC(data); break;
     case 9: TID = VTHTEST(data); break;
     case 10: TID = Ref_R8B_COM(data); break;
+    case 11: TID = DRIVE(data); break;
     }
 
   return TID;

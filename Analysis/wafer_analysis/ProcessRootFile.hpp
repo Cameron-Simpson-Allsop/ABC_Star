@@ -33,7 +33,6 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   if(ADCScanCanvas == NULL){std::cout<<"Canvas is null..."<<std::endl; return data;}
   //ADCScanCanvas->Draw();
   //if(i==0){ADCScanCanvas->ls();}
-  
   //Extract TGraph values from pad 		      
   TPad *mypad = (TPad*)ADCScanCanvas->GetPrimitive("pad_plot");
   TPad *mysubpad = (TPad*)mypad->GetPrimitive(padName);
@@ -79,7 +78,6 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
     {
       data.init_check = false;
     }
-
   //std::cout<<padName<<"\t"<<graphName;
   //Fit graph (if relevant)
   TH1F *fitcheck = (TH1F*)mysubpad->GetPrimitive("vhisto");
@@ -87,14 +85,21 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
     {
       //std::cout<<": (No fit applied)";//<<std::endl;
     }
-  else if(fitcheck != NULL)
+  else if(fitcheck != NULL && i<11)//if i>=11 this statement breaks the code
     { 
       TF1 *fit = new TF1("fit","pol1",0,500);
-      myTGraph->Fit(fit,"QRN");
-      data.redfitp0 = fit->GetParameter(0);
-      data.redfitp1 = fit->GetParameter(1);
+      TFitResultPtr check = myTGraph->Fit(fit,"QRN");
+      if(check == 0)
+	{
+	  data.redfitp0 = fit->GetParameter(0);
+	  data.redfitp1 = fit->GetParameter(1);
+	}
+      else if(check != 0)
+	{
+	  std::cout<<"fit failed"<<std::endl;
+	}
     }
-  
+ 
   if((padName == "pad_plot_3" || padName == "pad_plot_7" || padName == "pad_plot_10" || padName == "pad_plot_12") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.001 && abs(data.redfitp0) > 0.001)
     {
       data.init_check = true;
