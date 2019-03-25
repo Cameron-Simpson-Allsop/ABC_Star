@@ -8,6 +8,8 @@ struct TID_Data
   double marker_ycoord; 
   double redfitp0;
   double redfitp1;
+  double redfitp2;
+  double redfitp3;
 
   bool init_check;
 };

@@ -26,7 +26,7 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TString filePrefix = "../../wafer/";
   TString fileSuffix = ".root";
   TString filePath = filePrefix+fileName+fileSuffix;
-
+  
   //Open file and draw
   TFile *file = TFile::Open(filePath);
   TCanvas *ADCScanCanvas = (TCanvas *)file->Get("ADCScanCanvas");
