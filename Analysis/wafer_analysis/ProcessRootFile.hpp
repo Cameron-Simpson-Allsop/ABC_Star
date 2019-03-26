@@ -7,6 +7,8 @@ struct Data
 {
   std::vector<double> x;
   std::vector<double> y;
+  std::vector<double> ex;
+  std::vector<double> ey;
   TString padName;
   TString graphName;
   double timeStamp;
@@ -40,7 +42,7 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TGraphErrors *myTGraph = (TGraphErrors*)mysubpad->GetPrimitive(graphName);	      
   for(int n = 0; n < myTGraph->GetN();++n)
     {
-      double x,y;
+      double x,y,ex,ey;
       myTGraph->GetPoint(n,x,y);
       data.x.push_back(x);
       data.y.push_back(y);
@@ -85,10 +87,11 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
     {
       //std::cout<<": (No fit applied)";//<<std::endl;
     }
-  else if(fitcheck != NULL && i<11)//if i>=11 this statement breaks the code
-    { 
+  else if(fitcheck != NULL)//if i>=11 this statement breaks the code
+    {
+      TGraph *graph = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
       TF1 *fit = new TF1("fit","pol1",0,500);
-      TFitResultPtr check = myTGraph->Fit(fit,"QRN");
+      TFitResultPtr check = graph->Fit(fit,"QRN");
       if(check == 0)
 	{
 	  data.redfitp0 = fit->GetParameter(0);

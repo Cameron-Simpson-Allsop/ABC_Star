@@ -93,10 +93,12 @@ TID_Data DRIVE(Data data)
   TID.timeStamp = data.timeStamp;
   TID.MRad = data.MRad;
   TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
-  TF1 *fit = new TF1("fit","pol1",0,10);
+  TF1 *fit = new TF1("fit","pol3",0,10);
   g->Fit(fit,"QRN");
   TID.redfitp0 = fit->GetParameter(0);
   TID.redfitp1 = fit->GetParameter(1);
+  TID.redfitp2 = fit->GetParameter(2);
+  TID.redfitp3 = fit->GetParameter(3);
   TID.init_check = data.init_check;
   return TID;
 }
