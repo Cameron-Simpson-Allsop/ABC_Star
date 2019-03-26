@@ -26,8 +26,7 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   Data data;
   //Define file path
   TString filePrefix = "../../wafer/";
-  TString fileSuffix = ".root";
-  TString filePath = filePrefix+fileName+fileSuffix;
+  TString filePath = filePrefix+fileName;
   
   //Open file and draw
   TFile *file = TFile::Open(filePath);

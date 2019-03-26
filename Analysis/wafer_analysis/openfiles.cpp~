@@ -1,0 +1,21 @@
+#include <fstream>
+
+void openfiles()
+{
+  ifstream fileList;
+  std::string option;
+  std::string fileName;
+  std::cout<<"Accepted/Rejected files?(0/1)...";
+  std::cin>>option;
+  if(option == "0");
+  {
+    fileName = "Accepted_EXT_Files.txt";
+    std::cout<<fileName<<std::endl;
+  }
+  else if(option == "1")
+    {
+      fileName = "Rejected_EXT_Files.txt";
+      std::cout<<fileName<<std::endl;
+    }
+  else std::cout<<"Invalid input, please try again..."<<std::endl;
+}

@@ -4,11 +4,11 @@
 
 void fitCheck()
 {
-  std::string ExtInt{"EXT"};
-  std::string pol{"3"};
-  std::string pad{"12"};
-  std::string gtitle{"gDRIVE"};
-  std::cout<<"Enter file type (EXT/INT)..."<<std::endl;
+  std::string ExtInt{""};
+  std::string pol{""};
+  std::string pad{""};
+  TString gtitle{""};
+  std::cout<<"Enter file type (EXT/INT)...";
   bool check = false;
   while(check == false)
     {
@@ -17,10 +17,49 @@ void fitCheck()
   	{
   	  check = true;
   	}
-      else std::cout<<"Invalid input, please try again..."<<std::endl;
+      else std::cout<<"Invalid input, please try again...";
     }
   check = false;
-  std::cout<<"Enter polynomial order (1-6)..."<<std::endl;
+  std::cout<<"Enter subpad number (1-12)...";
+  while(check == false)
+    {
+      std::cin>>pad;
+      std::vector<TString> graphNames = {"Graph","Graph","gTRDAC","gVRef","gIRef","gR8B","gVCD","gCALLINE","gTHDAC","gVTHTEST","gCOM","gDRIVE","gVB","gVTHREF"};   
+      if(pad == "1" || pad == "2" || pad == "3" || pad == "4" || pad == "5" || pad == "6" || pad == "8" || pad == "9" || pad == "11" || pad == "12")
+  	{
+	  int padnumber = std::stoi(pad);
+	  gtitle = graphNames[padnumber-1];	    
+	  check = true;
+  	}
+      else if(pad == "7")
+	{
+	  std::string input;
+	  std::cout<<"Select graph (VCD,VB)...";
+	  std::cin>>input;
+	  if(input == "VCD" || input == "VB")
+	    {
+	      gtitle = "g"+input;
+	      check = true;
+	    }
+	  else std::cout<<"Invalid input, please reselect subpad..."; 
+	}
+      else if(pad == "10")
+	{
+	  std::string input;
+	  std::cout<<"Select graph (VTHTEST,VTHREF)...";
+	  std::cin>>input;
+	  if(input == "VTHTEST" || input == "VTHREF")
+	    {
+	      gtitle = "g"+input;
+	      check = true;
+	    }
+	  else std::cout<<"Invalid input, please try again...";	      
+	}
+
+      else std::cout<<"Invalid input, please try again...";
+    }
+  check = false;
+  std::cout<<"Enter polynomial order (1-6)...";
   while(check == false)
     {
       std::cin>>pol;
@@ -28,20 +67,10 @@ void fitCheck()
   	{
   	  check = true;
   	}
-      else std::cout<<"Invalid input, please try again..."<<std::endl;
+      else std::cout<<"Invalid input, please try again...";
     }
   check = false;
-  std::cout<<"Enter subpad number (1-12)..."<<std::endl;
-  while(check == false)
-    {
-      std::cin>>pad;
-      if(pol == "1" || pol == "2" || pol == "3" || pol == "4" || pol == "5" || pol == "6" || pol == "7" || pol == "8" || pol == "9" || pol == "10" || pol == "11" || pol == "12")
-  	{
-  	  check = true;
-  	}
-      else std::cout<<"Invalid input, please try again..."<<std::endl;
-    }
-  
+  //std::cout<<gtitle<<std::endl;
   ifstream inFile;
   std::string line{""};
   int linecount{0};
@@ -68,7 +97,7 @@ void fitCheck()
 	      TPad *mypad = (TPad*)ADCScanCanvas->GetPrimitive("pad_plot");
 	      TString subpadname = "pad_plot_"+pad;
 	      TPad *mysubpad = (TPad*)mypad->GetPrimitive(subpadname);
-	      TGraphErrors *myTGraph = (TGraphErrors*)mysubpad->GetPrimitive("gDRIVE");
+	      TGraphErrors *myTGraph = (TGraphErrors*)mysubpad->GetPrimitive(gtitle);
 	      if(myTGraph == NULL){std::cout<<line<<"\tTGraphErrors is null..."<<std::endl;}
 
 	      if(linecount/20 == (linecount*1.)/20. && myTGraph != NULL)
@@ -83,7 +112,7 @@ void fitCheck()
 		    }
 		  TGraph *graph = new TGraph(x.size(),&(x[0]),&(y[0]));
 		  TString polorder = "pol"+pol;
-		  TF1 *fit = new TF1("fit",polorder,0,10);
+		  TF1 *fit = new TF1("fit",polorder,0,500);
 		  fit->SetLineColor(kBlue);
 		  TString cantitle = "c"+std::to_string(linecount);
 		  TCanvas *canvas = new TCanvas(cantitle,cantitle,600,600);
@@ -103,5 +132,6 @@ void fitCheck()
 	}
       inFile.close();
     }
-  std::cout<<"linecount = "<<linecount<<"\nprocessed filecount = "<<processedfilecount<<"\nfilecount = "<<filecount<<std::endl;
+  std::cout<<"\nlinecount = "<<linecount<<"\nfilecount = "<<filecount<<"\nprocessed filecount = "<<processedfilecount<<std::endl;
+  std::cout<<"\nFile type: "<<ExtInt<<"\nSubpad: "<<pad<<"\nPolynomial order: "<<pol<<"\nGraph: "<<gtitle<<"\n"<<std::endl;
 }
