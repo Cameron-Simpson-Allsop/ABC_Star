@@ -32,6 +32,8 @@ struct Data_vs_TID_EXT
   std::vector<double> R8Bfitp1;
   std::vector<double> VCDfitp0;
   std::vector<double> VCDfitp1;
+  std::vector<double> VCDfitp2;
+  std::vector<double> VCDfitp3;
   std::vector<double> CALLINEfitp0;
   std::vector<double> CALLINEfitp1;
   std::vector<double> THDACfitp0;
@@ -292,19 +294,23 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   //EXT subpad 7 chip 008
   TGraph *VCD_p0_8;
   TGraph *VCD_p1_8;
-  TGraph2D *VCD_8;
+  TGraph *VCD_p2_8;
+  TGraph *VCD_p3_8;
   VCD_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VCD p0");
   VCD_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VCD p1");
-  VCD_8 = Plot2D(datavTID_EXT_8.VCDfitp0, datavTID_EXT_8.VCDfitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","VCD Parameters");
-  TCanvas *EXT_subpad_7_chip_008 = Draw_EXT_subpad_3pads("EXT_subpad_7_chip_008",VCD_p0_8,"AP",VCD_p1_8,"AP",VCD_8,"colz");
+  VCD_p2_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VCD p2");
+  VCD_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VCD p3");
+  TCanvas *EXT_subpad_7_chip_008 = Draw_EXT_subpad_4pads("EXT_subpad_7_chip_008",VCD_p0_8,"AP",VCD_p1_8,"AP",VCD_p2_8,"AP",VCD_p3_8,"AP");
   //EXT subpad 7 chip 009
   TGraph *VCD_p0_9;
   TGraph *VCD_p1_9;
-  TGraph2D *VCD_9;
+  TGraph *VCD_p2_9;
+  TGraph *VCD_p3_9;
   VCD_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VCD p0");
   VCD_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VCD p1");
-  VCD_9 = Plot2D(datavTID_EXT_9.VCDfitp0, datavTID_EXT_9.VCDfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","VCD Parameters");
-  TCanvas *EXT_subpad_7_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_7_chip_009",VCD_p0_9,"AP",VCD_p1_9,"AP",VCD_9,"colz");
+  VCD_p2_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VCD p2");
+  VCD_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VCD p3");
+  TCanvas *EXT_subpad_7_chip_009 = Draw_EXT_subpad_4pads("EXT_subpad_7_chip_009",VCD_p0_9,"AP",VCD_p1_9,"AP",VCD_p2_9,"AP",VCD_p3_9,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
