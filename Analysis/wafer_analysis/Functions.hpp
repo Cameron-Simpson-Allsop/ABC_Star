@@ -103,25 +103,33 @@ TID_Data VCD_DRIVE_VB(Data data)
   return TID;
 }
 
-TID_Data Functions(TString graphName, TString padName, TString fileName, Data data, int function)
+TID_Data Functions(Data data, int function, std::string EXTINT)
 {
   TID_Data TID;
-  switch(function)
+  if(EXTINT == "EXT")
     {
-    case 0: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
-    case 1: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
-    case 2: TID = TRDAC_CALLINE_THDAC(data); break;
-    case 3: TID = Ref_R8B_COM(data); break;
-    case 4: TID = Ref_R8B_COM(data); break;
-    case 5: TID = Ref_R8B_COM(data); break;
-    case 6: TID = VCD_DRIVE_VB(data); break;
-    case 7: TID = TRDAC_CALLINE_THDAC(data); break;
-    case 8: TID = TRDAC_CALLINE_THDAC(data); break;
-    case 9: TID = VTHTEST(data); break;
-    case 10: TID = Ref_R8B_COM(data); break;
-    case 11: TID = VCD_DRIVE_VB(data); break;
-    case 12: TID = VCD_DRIVE_VB(data); break;
+      switch(function)
+	{
+	case 0: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
+	case 1: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
+	case 2: TID = TRDAC_CALLINE_THDAC(data); break;
+	case 3: TID = Ref_R8B_COM(data); break;
+	case 4: TID = Ref_R8B_COM(data); break;
+	case 5: TID = Ref_R8B_COM(data); break;
+	case 6: TID = VCD_DRIVE_VB(data); break;
+	case 7: TID = TRDAC_CALLINE_THDAC(data); break;
+	case 8: TID = TRDAC_CALLINE_THDAC(data); break;
+	case 9: TID = VTHTEST(data); break;
+	case 10: TID = Ref_R8B_COM(data); break;
+	case 11: TID = VCD_DRIVE_VB(data); break;
+	case 12: TID = VCD_DRIVE_VB(data); break;
+	}
     }
-
+  else if(EXTINT == "INT")
+    {
+      
+    }
+  else std::cout<<"Invalid function input..."<<std::endl;
+  
   return TID;
 }

@@ -1,0 +1,10 @@
+#include <iostream>
+#include <algorithm>
+
+void INT_analysis(std::vector<TString> INTfiles)
+{
+  for(int i{0}; i<30; ++i)
+    {
+      std::cout<<INTfiles[i]<<std::endl;
+    }
+}

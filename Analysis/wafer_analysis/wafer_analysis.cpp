@@ -1,13 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "ProcessRootFile.hpp"
+#include "Functions.hpp"
+#include "PlotFunctions.hpp"
 #include "EXT_analysis.hpp"
+#include "INT_analysis.hpp"
 
 void wafer_analysis()
 {
-  //TString fileSuffix = ".root";  
-  //TString padPrefix = "pad_plot_";  
-  //Find list of files
   int filetotal{0};
   ifstream fileList;
   fileList.open("../../wafer/FileList.txt");
@@ -41,8 +42,27 @@ void wafer_analysis()
       else std::cout<<"Error categorising file '"+line+"'..."<<std::endl;
       ++filetotal;
     }
-  EXT_analysis(EXTfiles);
-  //std::cout<<"================================================================================================"<<std::endl;
+
+  std::cout<<"EXT or INT? (0/1)...";
+  std::string input;
+  bool check = false;
+  while(check == false)
+    {
+      std::cin>>input;
+      if(input == "0")
+	{
+	  std::cout<<"Processing EXT files..."<<std::endl;
+	  EXT_analysis(EXTfiles);
+	  check = true;
+	}
+      else if(input == "1")
+	{
+	  std::cout<<"Processing INT files..."<<std::endl;
+	  INT_analysis(INTfiles);
+	  check = true;
+	}
+      else std::cout<<"Invalid input, please try again...";
+    }
   std::cout<<"Total file count = "<<filetotal<<std::endl;
   std::cout<<"================================================================================================"<<std::endl;
   fileList.close();

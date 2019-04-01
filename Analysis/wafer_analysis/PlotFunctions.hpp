@@ -54,6 +54,11 @@ struct Data_vs_TID_EXT
   std::vector<double> VBfitp3;
 };
 
+struct Data_vs_TID_INT
+{
+
+};
+
 
 TGraph *Plot(std::vector<double> x, std::vector<double> y, TString xtitle, TString ytitle, TString title)
 {
@@ -64,26 +69,26 @@ TCanvas *Draw_EXT_subpad_6pads(TString cantitle, TGraph *g1, TString cg1, TGraph
 {
   TGaxis::SetMaxDigits(2);
   TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(3,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g5->Draw(cg5);c->cd(6);g6->Draw(cg6);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");return c;
+  c->Divide(3,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g5->Draw(cg5);c->cd(6);g6->Draw(cg6);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
 }
 TCanvas *Draw_EXT_subpad_3pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph2D *g3, TString cg3)
 {
   TGaxis::SetMaxDigits(2);
   TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(3,1);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");return c;
+  c->Divide(3,1);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
 }
 TCanvas *Draw_EXT_subpad_4pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4)
 {
   TGaxis::SetMaxDigits(2);
   TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(2,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");return c;
+  c->Divide(2,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
 }
 
 TCanvas *Draw_EXT_subpad_8pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4, TGraph *g5, TString cg5, TGraph *g6, TString cg6, TGraph *g7, TString cg7, TGraph *g8, TString cg8)
 {
   TGaxis::SetMaxDigits(2);
   TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(4,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g1->Draw(cg5);c->cd(6);g1->Draw(cg6);c->cd(7);g1->Draw(cg7);c->cd(8);g1->Draw(cg8);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");return c;
+  c->Divide(4,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g1->Draw(cg5);c->cd(6);g1->Draw(cg6);c->cd(7);g1->Draw(cg7);c->cd(8);g1->Draw(cg8);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
 }
 
 TGraph2D *Plot2D(std::vector<double> xvec, std::vector<double> yvec, std::vector<double> zvec, TString xtitle, TString ytitle, TString ztitle, TString title)
@@ -125,6 +130,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   //timestamp_TID_leg->Draw("same");
   //timestamp_TID_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.root");
   //timestamp_TID_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.pdf");
+  timestamp_TID_can->Close();
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   

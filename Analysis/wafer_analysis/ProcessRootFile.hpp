@@ -21,15 +21,17 @@ struct Data
   bool init_check;
 };
 
-Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i)
+Data ProcessRootFile(std::string filename, TString padName, TString graphName, int i)
 {
   Data data;
   //Define file path
   TString filePrefix = "../../wafer/";
+  TString fileName = filename;
   TString filePath = filePrefix+fileName;
-  
   //Open file and draw
   TFile *file = TFile::Open(filePath);
+  std::size_t EXTcheck = filename.find("EXT");
+  std::size_t INTcheck = filename.find("INT");
   TCanvas *ADCScanCanvas = (TCanvas *)file->Get("ADCScanCanvas");
   if(ADCScanCanvas == NULL){std::cout<<"Canvas is null..."<<std::endl; return data;}
   //ADCScanCanvas->Draw();
@@ -52,7 +54,6 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   TPaveText *headerpave = (TPaveText*)header->GetPrimitive("TPave");
   auto headertext = headerpave->GetLine(0);
   std::string padTitle = headertext->GetTitle();
-
   //Extract Marker from pad
   TMarker *marker = (TMarker*)mysubpad->GetPrimitive("TMarker");
   
@@ -62,66 +63,91 @@ Data ProcessRootFile(TString fileName, TString padName, TString graphName, int i
   std::size_t Time = padTitle.find("Time");
   std::size_t MRad = padTitle.find("MRad");
 
-  if(Time != std::string::npos && MRad != std::string::npos && marker != NULL)
-    {
-      data.timeStamp = std::stod(padTitle.substr(Time+5,6));
-      data.MRad = std::stod(padTitle.substr(MRad-7,6));
-      data.marker_xcoord = marker->GetX();
-      data.marker_ycoord = marker->GetY();
-
-      data.init_check = true;
-      if(padName == "pad_plot_1")
-	{
-	  //std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad"<<std::endl;
-	}
-    }
-  if((Time != std::string::npos && MRad == std::string::npos) || marker == NULL)
-    {
-      data.init_check = false;
-    }
-  //std::cout<<padName<<"\t"<<graphName;
-  //Fit graph (if relevant)
+  //Check if fit present
   TH1F *fitcheck = (TH1F*)mysubpad->GetPrimitive("vhisto");
-  if(fitcheck == NULL)
-    {
-      //std::cout<<": (No fit applied)";//<<std::endl;
-    }
-  else if(fitcheck != NULL)//if i>=11 this statement breaks the code
-    {
-      TGraph *graph = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
-      TF1 *fit = new TF1("fit","pol1",0,500);
-      TFitResultPtr check = graph->Fit(fit,"QRN");
-      if(check == 0)
-	{
-	  data.redfitp0 = fit->GetParameter(0);
-	  data.redfitp1 = fit->GetParameter(1);
-	}
-      else if(check != 0)
-	{
-	  std::cout<<"fit failed"<<std::endl;
-	}
-    }
- 
-  if((padName == "pad_plot_3" || padName == "pad_plot_7" || padName == "pad_plot_10" || padName == "pad_plot_12") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.001 && abs(data.redfitp0) > 0.001)
-    {
-      data.init_check = true;
-    }
-  if((padName == "pad_plot_8" || padName == "pad_plot_9") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.0001)
-    {
-      data.init_check = true;
-    }
   
-  std::string failreason = "";
-  if(MRad == std::string::npos){failreason = "No TID data";}
-  if(marker == NULL){failreason = "Anomalous data";}
-  if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
-  if(data.init_check == true)
+  //EXT file checks
+  if(EXTcheck != std::string::npos && INTcheck == std::string::npos)
     {
-      //std::cout<<"\t\t | Pass"<<std::endl;
+      if(Time != std::string::npos && MRad != std::string::npos && marker != NULL)
+	{
+	  data.timeStamp = std::stod(padTitle.substr(Time+5,6));
+	  data.MRad = std::stod(padTitle.substr(MRad-7,6));
+	  data.marker_xcoord = marker->GetX();
+	  data.marker_ycoord = marker->GetY();
+
+	  data.init_check = true;
+	  if(padName == "pad_plot_1")
+	    {
+	      //std::cout<<"time stamp = " << data.timeStamp<<"\t"<<data.MRad<<" MRad"<<std::endl;
+	    }
+	}
+      if((Time != std::string::npos && MRad == std::string::npos) || marker == NULL)
+	{
+	  data.init_check = false;
+	}
+      //std::cout<<padName<<"\t"<<graphName;
+      //Fit graph (if relevant)
+      if(fitcheck == NULL)
+	{
+	  //std::cout<<": (No fit applied)";//<<std::endl;
+	}
+      else if(fitcheck != NULL)//if i>=11 this statement breaks the code
+	{
+	  TGraph *graph = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
+	  TF1 *fit = new TF1("fit","pol1",0,500);
+	  TFitResultPtr check = graph->Fit(fit,"QRN");
+	  if(check == 0)
+	    {
+	      data.redfitp0 = fit->GetParameter(0);
+	      data.redfitp1 = fit->GetParameter(1);
+	    }
+	  else if(check != 0)
+	    {
+	      std::cout<<"fit failed"<<std::endl;
+	    }
+	}
+ 
+      if((padName == "pad_plot_3" || padName == "pad_plot_7" || padName == "pad_plot_10" || padName == "pad_plot_12") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.001 && abs(data.redfitp0) > 0.001)
+	{
+	  data.init_check = true;
+	}
+      if((padName == "pad_plot_8" || padName == "pad_plot_9") && Time != std::string::npos && MRad != std::string::npos && abs(data.redfitp1) > 0.0001)
+	{
+	  data.init_check = true;
+	}
+  
+      std::string failreason = "";
+      if(MRad == std::string::npos){failreason = "No TID data";}
+      if(marker == NULL){failreason = "Anomalous data";}
+      if(MRad == std::string::npos && marker == NULL){failreason = "No TID data, and data is anomalous";}
+      if(data.init_check == true)
+	{
+	  //std::cout<<"\t\t | Pass"<<std::endl;
+	}
+      else if(data.init_check == false)
+	{
+	  //std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;
+	}
     }
-  else if(data.init_check == false)
+
+  //INT file checks
+  if(INTcheck != std::string::npos && EXTcheck == std::string::npos)
     {
-      //std::cout<<"\t\t\t\t\t | Fail: "<<failreason<<std::endl;
+      if(Time != std::string::npos && MRad != std::string::npos)
+	{
+	  data.timeStamp = std::stod(padTitle.substr(Time+5,6));
+	  data.MRad = std::stod(padTitle.substr(MRad-7,6));
+	  data.init_check = true;	}
+      if(MRad == std::string::npos)
+	{
+	  data.init_check = false;
+	}
+      if(fitcheck == NULL && padName != "pad_plot_1" && padName != "pad_plot_2")
+	{
+	  data.init_check = false;
+	}
+      //std::cout<<fileName<<"\t"<<padName<<"\t"<<data.init_check<<"\n";
     }
   
   data.padName = padName;
