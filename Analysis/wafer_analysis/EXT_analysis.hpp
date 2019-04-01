@@ -15,7 +15,11 @@ void EXT_analysis(std::vector<TString> EXTfiles)
   int padcount{0};
   int processedpadcount{0};
   std::string line{""};
-  
+  ofstream acceptedFiles;
+  acceptedFiles.open("Accepted_EXT_Files.txt");
+  ofstream rejectedFiles;
+  rejectedFiles.open("Rejected_EXT_Files.txt");
+	  
   //For each file...
   for(int filenumber{0}; filenumber<EXTfiles.size(); ++filenumber)
     {
@@ -29,11 +33,9 @@ void EXT_analysis(std::vector<TString> EXTfiles)
       if(inFile->IsZombie()){}
       else if(!inFile->IsZombie())
 	{
+
 	  ++filecount;
-	  //std::cout<<"================================================================================================"<<std::endl;
-	  //std::cout<<fileName+fileSuffix<<std::endl;
-	  //Extract data from file
-	  for(int i{0}; i<graphName.size()-2; ++i)
+	  for(int i{0}; i<graphName.size()-1; ++i)
 	    {
 	      ++padcount;
 	      Data data;
@@ -73,6 +75,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		      datavTID_EXT_8.marker_ycoord_VDDA.push_back(TID.marker_ycoord);
 		      ++processedfilecount;
 		      ++processedpadcount;
+		      acceptedFiles<<fileName<<std::endl;
 		    }
 		  else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
 		    {
@@ -84,9 +87,11 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		      datavTID_EXT_9.marker_ycoord_VDDA.push_back(TID.marker_ycoord);
 		      ++processedfilecount;
 		      ++processedpadcount;
+		      acceptedFiles<<fileName<<std::endl;
 		    }
 		  else
 		    {
+		      rejectedFiles<<fileName<<std::endl;
 		      //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 		    }
 		  break;
@@ -215,12 +220,16 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		    {
 		      datavTID_EXT_8.VCDfitp0.push_back(TID.redfitp0);
 		      datavTID_EXT_8.VCDfitp1.push_back(TID.redfitp1);
+		      datavTID_EXT_8.VCDfitp2.push_back(TID.redfitp2);
+		      datavTID_EXT_8.VCDfitp3.push_back(TID.redfitp3);
 		      ++processedpadcount;			  
 		    }
 		  else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
 		    {
 		      datavTID_EXT_9.VCDfitp0.push_back(TID.redfitp0);
 		      datavTID_EXT_9.VCDfitp1.push_back(TID.redfitp1);
+		      datavTID_EXT_9.VCDfitp2.push_back(TID.redfitp2);
+		      datavTID_EXT_9.VCDfitp3.push_back(TID.redfitp3);
 		      ++processedpadcount;
 		    }
 		  else
@@ -340,11 +349,36 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		      //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
 		    }
 		  break;
+
+		case 12:
+		  TID = Functions(graphName[i],padName,fileName,data,i);
+		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+		    {
+		      datavTID_EXT_8.VBfitp0.push_back(TID.redfitp0);
+		      datavTID_EXT_8.VBfitp1.push_back(TID.redfitp1);
+		      datavTID_EXT_8.VBfitp2.push_back(TID.redfitp2);
+		      datavTID_EXT_8.VBfitp3.push_back(TID.redfitp3);
+		      ++processedpadcount;
+		    }
+		  else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+		    {			  
+		      datavTID_EXT_9.VBfitp0.push_back(TID.redfitp0);
+		      datavTID_EXT_9.VBfitp1.push_back(TID.redfitp1);
+		      datavTID_EXT_9.VBfitp2.push_back(TID.redfitp2);
+		      datavTID_EXT_9.VBfitp3.push_back(TID.redfitp3);
+		      ++processedpadcount;
+		    }
+		  else
+		    {
+		      //std::cout<<"Error processing file '"+line+"' "+padName+"..."<<std::endl;
+		    }
+		  break;
 		}
 	    }
 	}
     }
-
+  acceptedFiles.close();
+  rejectedFiles.close();
   std::cout<<"================================================================================================"<<std::endl;
   
   PlotFunctions(datavTID_EXT_8, datavTID_EXT_9);

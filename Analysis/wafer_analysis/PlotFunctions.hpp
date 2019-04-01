@@ -48,6 +48,10 @@ struct Data_vs_TID_EXT
   std::vector<double> DRIVEfitp1;
   std::vector<double> DRIVEfitp2;
   std::vector<double> DRIVEfitp3;
+  std::vector<double> VBfitp0;
+  std::vector<double> VBfitp1;
+  std::vector<double> VBfitp2;
+  std::vector<double> VBfitp3;
 };
 
 
@@ -73,6 +77,13 @@ TCanvas *Draw_EXT_subpad_4pads(TString cantitle, TGraph *g1, TString cg1, TGraph
   TGaxis::SetMaxDigits(2);
   TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
   c->Divide(2,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");return c;
+}
+
+TCanvas *Draw_EXT_subpad_8pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4, TGraph *g5, TString cg5, TGraph *g6, TString cg6, TGraph *g7, TString cg7, TGraph *g8, TString cg8)
+{
+  TGaxis::SetMaxDigits(2);
+  TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
+  c->Divide(4,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g1->Draw(cg5);c->cd(6);g1->Draw(cg6);c->cd(7);g1->Draw(cg7);c->cd(8);g1->Draw(cg8);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");return c;
 }
 
 TGraph2D *Plot2D(std::vector<double> xvec, std::vector<double> yvec, std::vector<double> zvec, TString xtitle, TString ytitle, TString ztitle, TString title)
@@ -296,21 +307,37 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   TGraph *VCD_p1_8;
   TGraph *VCD_p2_8;
   TGraph *VCD_p3_8;
+  TGraph *VB_p0_8;
+  TGraph *VB_p1_8;
+  TGraph *VB_p2_8;
+  TGraph *VB_p3_8;
   VCD_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VCD p0");
   VCD_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VCD p1");
   VCD_p2_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VCD p2");
-  VCD_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VCD p3");
-  TCanvas *EXT_subpad_7_chip_008 = Draw_EXT_subpad_4pads("EXT_subpad_7_chip_008",VCD_p0_8,"AP",VCD_p1_8,"AP",VCD_p2_8,"AP",VCD_p3_8,"AP");
+  VCD_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VCDfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VCD p3");  
+  VB_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VB p0");
+  VB_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VB p1");
+  VB_p2_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VB p2");
+  VB_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VB p3");
+  TCanvas *EXT_subpad_7_chip_008 = Draw_EXT_subpad_8pads("EXT_subpad_7_chip_008",VCD_p0_8,"AP",VCD_p1_8,"AP",VCD_p2_8,"AP",VCD_p3_8,"AP",VB_p0_8,"AP",VB_p1_8,"AP",VB_p2_8,"AP",VB_p3_8,"AP");
   //EXT subpad 7 chip 009
   TGraph *VCD_p0_9;
   TGraph *VCD_p1_9;
   TGraph *VCD_p2_9;
   TGraph *VCD_p3_9;
+  TGraph *VB_p0_9;
+  TGraph *VB_p1_9;
+  TGraph *VB_p2_9;
+  TGraph *VB_p3_9;
   VCD_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VCD p0");
   VCD_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VCD p1");
   VCD_p2_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VCD p2");
-  VCD_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VCD p3");
-  TCanvas *EXT_subpad_7_chip_009 = Draw_EXT_subpad_4pads("EXT_subpad_7_chip_009",VCD_p0_9,"AP",VCD_p1_9,"AP",VCD_p2_9,"AP",VCD_p3_9,"AP");
+  VCD_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VCDfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VCD p3");  
+  VB_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","VB p0");
+  VB_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VB p1");
+  VB_p2_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VB p2");
+  VB_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VB p3");
+  TCanvas *EXT_subpad_7_chip_009 = Draw_EXT_subpad_8pads("EXT_subpad_7_chip_009",VCD_p0_9,"AP",VCD_p1_9,"AP",VCD_p2_9,"AP",VCD_p3_9,"AP",VB_p0_9,"AP",VB_p1_9,"AP",VB_p2_9,"AP",VB_p3_9,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 

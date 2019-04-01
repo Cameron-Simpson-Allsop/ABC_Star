@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 
-void fitTest()
+void fitCheck_pads1_2()
 {
   TRandom2 *rndm = new TRandom2();
   for(int n{0}; n<10; ++n)

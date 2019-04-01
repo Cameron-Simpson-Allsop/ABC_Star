@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "EXT_analysis.cpp"
+#include "EXT_analysis.hpp"
 
 void wafer_analysis()
 {

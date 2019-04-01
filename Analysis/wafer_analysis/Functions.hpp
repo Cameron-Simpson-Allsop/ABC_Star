@@ -87,7 +87,7 @@ TID_Data VTHTEST(Data data)
   return TID;
 }
 
-TID_Data VCD_DRIVE(Data data)
+TID_Data VCD_DRIVE_VB(Data data)
 {
   TID_Data TID;
   TID.timeStamp = data.timeStamp;
@@ -114,12 +114,13 @@ TID_Data Functions(TString graphName, TString padName, TString fileName, Data da
     case 3: TID = Ref_R8B_COM(data); break;
     case 4: TID = Ref_R8B_COM(data); break;
     case 5: TID = Ref_R8B_COM(data); break;
-    case 6: TID = VCD_DRIVE(data); break;
+    case 6: TID = VCD_DRIVE_VB(data); break;
     case 7: TID = TRDAC_CALLINE_THDAC(data); break;
     case 8: TID = TRDAC_CALLINE_THDAC(data); break;
     case 9: TID = VTHTEST(data); break;
     case 10: TID = Ref_R8B_COM(data); break;
-    case 11: TID = VCD_DRIVE(data); break;
+    case 11: TID = VCD_DRIVE_VB(data); break;
+    case 12: TID = VCD_DRIVE_VB(data); break;
     }
 
   return TID;
