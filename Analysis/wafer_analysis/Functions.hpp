@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "TID_Data.hpp"
 
-TID_Data VDOAvsLDOA_VDDDvsLDOD(Data data)
+TID_Data EXT_VDOAvsLDOA_VDDDvsLDOD(Data data)
 {
   TID_Data TID;
   double y1,y2,y3,y4,y5;
@@ -47,7 +47,7 @@ TID_Data VDOAvsLDOA_VDDDvsLDOD(Data data)
   return TID;
 }
 
-TID_Data TRDAC_CALLINE_THDAC(Data data)
+TID_Data EXT_TRDAC_CALLINE_THDAC(Data data)
 {
   TID_Data TID;
   TID.timeStamp = data.timeStamp;
@@ -58,7 +58,7 @@ TID_Data TRDAC_CALLINE_THDAC(Data data)
   return TID;
 }
 
-TID_Data Ref_R8B_COM(Data data)
+TID_Data EXT_Ref_R8B_COM(Data data)
 {
   TID_Data TID;
   TID.timeStamp = data.timeStamp;
@@ -71,7 +71,7 @@ TID_Data Ref_R8B_COM(Data data)
   return TID;
 }
 
-TID_Data VTHTEST(Data data)
+TID_Data EXT_VTHTEST(Data data)
 {
   TID_Data TID;
   TID.timeStamp = data.timeStamp;
@@ -87,7 +87,7 @@ TID_Data VTHTEST(Data data)
   return TID;
 }
 
-TID_Data VCD_DRIVE_VB(Data data)
+TID_Data EXT_VCD_DRIVE_VB(Data data)
 {
   TID_Data TID;
   TID.timeStamp = data.timeStamp;
@@ -103,6 +103,17 @@ TID_Data VCD_DRIVE_VB(Data data)
   return TID;
 }
 
+TID_Data INT_VDDAvsLDOA(Data data)
+{
+  TID_Data TID;
+  TID.timeStamp = data.timeStamp;
+  TID.MRad = data.MRad;
+  TID.disc_x = 1.;
+  TID.disc_y = 1.;
+  TID.init_check = data.init_check;
+  return TID;
+}
+
 TID_Data Functions(Data data, int function, std::string EXTINT)
 {
   TID_Data TID;
@@ -110,24 +121,27 @@ TID_Data Functions(Data data, int function, std::string EXTINT)
     {
       switch(function)
 	{
-	case 0: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
-	case 1: TID = VDOAvsLDOA_VDDDvsLDOD(data); break;
-	case 2: TID = TRDAC_CALLINE_THDAC(data); break;
-	case 3: TID = Ref_R8B_COM(data); break;
-	case 4: TID = Ref_R8B_COM(data); break;
-	case 5: TID = Ref_R8B_COM(data); break;
-	case 6: TID = VCD_DRIVE_VB(data); break;
-	case 7: TID = TRDAC_CALLINE_THDAC(data); break;
-	case 8: TID = TRDAC_CALLINE_THDAC(data); break;
-	case 9: TID = VTHTEST(data); break;
-	case 10: TID = Ref_R8B_COM(data); break;
-	case 11: TID = VCD_DRIVE_VB(data); break;
-	case 12: TID = VCD_DRIVE_VB(data); break;
+	case 0: TID = EXT_VDOAvsLDOA_VDDDvsLDOD(data); break;
+	case 1: TID = EXT_VDOAvsLDOA_VDDDvsLDOD(data); break;
+	case 2: TID = EXT_TRDAC_CALLINE_THDAC(data); break;
+	case 3: TID = EXT_Ref_R8B_COM(data); break;
+	case 4: TID = EXT_Ref_R8B_COM(data); break;
+	case 5: TID = EXT_Ref_R8B_COM(data); break;
+	case 6: TID = EXT_VCD_DRIVE_VB(data); break;
+	case 7: TID = EXT_TRDAC_CALLINE_THDAC(data); break;
+	case 8: TID = EXT_TRDAC_CALLINE_THDAC(data); break;
+	case 9: TID = EXT_VTHTEST(data); break;
+	case 10: TID = EXT_Ref_R8B_COM(data); break;
+	case 11: TID = EXT_VCD_DRIVE_VB(data); break;
+	case 12: TID = EXT_VCD_DRIVE_VB(data); break;
 	}
     }
   else if(EXTINT == "INT")
     {
-      
+      switch(function)
+	{
+	case 0: TID = INT_VDDAvsLDOA(data); break;
+	}
     }
   else std::cout<<"Invalid function input..."<<std::endl;
   

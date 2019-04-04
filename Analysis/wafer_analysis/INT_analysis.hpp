@@ -31,7 +31,7 @@ void INT_analysis(std::vector<TString> INTfiles)
       else if(!inFile->IsZombie())
 	{
 	  ++filecount;
-	  for(int i{0}; i<2; ++i)
+	  for(int i{0}; i<1; ++i)
 	    {
 	      ++padcount;
 	      Data data;
@@ -40,10 +40,37 @@ void INT_analysis(std::vector<TString> INTfiles)
 	      padName = padPrefix + std::to_string(i+1);
 	      data = ProcessRootFile(fileName,padName,graphName[i],i);
 
+	      //Manipulate data for each pad
+	      std::size_t chip008 = line.find("008");
+	      std::size_t chip009 = line.find("009");	      
 	      switch(i)
 		{
 		case 0:
-
+		  TID = Functions(data,i,"INT");
+		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+		    {
+		      datavTID_INT_8.timeStamp.push_back(TID.timeStamp);
+		      datavTID_INT_8.MRad.push_back(TID.MRad);
+		      datavTID_INT_8.VDDA_vs_LDOA_disc_x.push_back(TID.disc_x);
+		      datavTID_INT_8.VDDA_vs_LDOA_disc_y.push_back(TID.disc_y);
+		      ++processedfilecount;
+		      ++processedpadcount;
+		      acceptedFiles<<fileName<<std::endl;
+		    }
+		  else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+		    {		      
+		      datavTID_INT_9.timeStamp.push_back(TID.timeStamp);
+		      datavTID_INT_9.MRad.push_back(TID.MRad);
+		      datavTID_INT_9.VDDA_vs_LDOA_disc_x.push_back(TID.disc_x);
+		      datavTID_INT_9.VDDA_vs_LDOA_disc_y.push_back(TID.disc_y);
+		      ++processedfilecount;
+		      ++processedpadcount;
+		      acceptedFiles<<fileName<<std::endl;
+		    }
+		  else
+		    {
+		      rejectedFiles<<fileName<<std::endl;
+		    }
 		  break;
 		}
 	    }

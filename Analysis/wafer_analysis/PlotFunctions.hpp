@@ -56,7 +56,10 @@ struct Data_vs_TID_EXT
 
 struct Data_vs_TID_INT
 {
-
+  std::vector<double> timeStamp;
+  std::vector<double> MRad;
+  std::vector<double> VDDA_vs_LDOA_disc_x;
+  std::vector<double> VDDA_vs_LDOA_disc_y;
 };
 
 
