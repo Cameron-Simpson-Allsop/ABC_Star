@@ -393,5 +393,5 @@ void EXT_analysis(std::vector<TString> EXTfiles)
   std::cout<<"Ratio pads:files processed = " << (processedpadcount*1.)/(processedfilecount*1.)<<std::endl;
   std::cout<<"Ratio pads:files rejected = " << ((padcount-processedpadcount)*1.)/((filecount-processedfilecount)*1.)<<std::endl;
   std::cout<<"\n";
-  std::cout<<"================================================================================================\n"<<std::endl;	      
+  std::cout<<"================================================================================================"<<std::endl;	      
 }

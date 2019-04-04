@@ -65,30 +65,69 @@ TGraph *Plot(std::vector<double> x, std::vector<double> y, TString xtitle, TStri
   TGraph *g = new TGraph(x.size(),&(x[0]),&(y[0]));g->GetXaxis()->SetTitle(xtitle);g->GetYaxis()->SetTitle(ytitle);g->SetTitle(title);g->SetMarkerStyle(20);g->SetMarkerSize(0.5);return g;
 }
 
-TCanvas *Draw_EXT_subpad_6pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2,TString cg2, TGraph2D *g3, TString cg3, TGraph *g4, TString cg4, TGraph *g5, TString cg5, TGraph2D *g6, TString cg6)
+TCanvas *Draw_subpad_6pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2,TString cg2, TGraph2D *g3, TString cg3, TGraph *g4, TString cg4, TGraph *g5, TString cg5, TGraph2D *g6, TString cg6)
 {
   TGaxis::SetMaxDigits(2);
-  TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(3,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g5->Draw(cg5);c->cd(6);g6->Draw(cg6);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
+  TCanvas *c = new TCanvas(cantitle,cantitle,1800,900);
+  c->Divide(3,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g5->Draw(cg5);c->cd(6);g6->Draw(cg6);
+
+  c->cd(3)->SetRightMargin(0.2);
+  c->cd(6)->SetRightMargin(0.2);
+  c->cd(1)->SetLeftMargin(0.12);
+  c->cd(2)->SetLeftMargin(0.12);
+  c->cd(3)->SetLeftMargin(0.12);
+  c->cd(4)->SetLeftMargin(0.12);
+  c->cd(5)->SetLeftMargin(0.12);
+  c->cd(6)->SetLeftMargin(0.12);
+  
+  c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");
+  c->Close();
+  return c;
 }
-TCanvas *Draw_EXT_subpad_3pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph2D *g3, TString cg3)
+TCanvas *Draw_subpad_3pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph2D *g3, TString cg3)
 {
   TGaxis::SetMaxDigits(2);
-  TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(3,1);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
+  TCanvas *c = new TCanvas(cantitle,cantitle,1800,900);
+  c->Divide(3,1);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);
+
+  c->cd(3)->SetRightMargin(0.15);
+  c->cd(3)->SetLeftMargin(0.15);
+  c->cd(2)->SetLeftMargin(0.15);
+  c->cd(1)->SetLeftMargin(0.15);  
+  
+  c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");
+  c->Close();
+  return c;
 }
-TCanvas *Draw_EXT_subpad_4pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4)
+TCanvas *Draw_subpad_4pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4)
 {
   TGaxis::SetMaxDigits(2);
-  TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(2,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
+  TCanvas *c = new TCanvas(cantitle,cantitle,1800,900);
+  c->Divide(2,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);
+
+  c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");
+  c->Close();
+  return c;
 }
 
-TCanvas *Draw_EXT_subpad_8pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4, TGraph *g5, TString cg5, TGraph *g6, TString cg6, TGraph *g7, TString cg7, TGraph *g8, TString cg8)
+TCanvas *Draw_subpad_8pads(TString cantitle, TGraph *g1, TString cg1, TGraph *g2, TString cg2, TGraph *g3, TString cg3, TGraph *g4, TString cg4, TGraph *g5, TString cg5, TGraph *g6, TString cg6, TGraph *g7, TString cg7, TGraph *g8, TString cg8)
 {
   TGaxis::SetMaxDigits(2);
-  TCanvas *c = new TCanvas(cantitle,cantitle,600,600);
-  c->Divide(4,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g1->Draw(cg5);c->cd(6);g1->Draw(cg6);c->cd(7);g1->Draw(cg7);c->cd(8);g1->Draw(cg8);c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");c->Close();return c;
+  TCanvas *c = new TCanvas(cantitle,cantitle,1800,900);
+  c->Divide(4,2);c->cd(1);g1->Draw(cg1);c->cd(2);g2->Draw(cg2);c->cd(3);g3->Draw(cg3);c->cd(4);g4->Draw(cg4);c->cd(5);g1->Draw(cg5);c->cd(6);g1->Draw(cg6);c->cd(7);g1->Draw(cg7);c->cd(8);g1->Draw(cg8);
+
+  c->cd(1)->SetLeftMargin(0.15);
+  c->cd(2)->SetLeftMargin(0.15);
+  c->cd(3)->SetLeftMargin(0.15);
+  c->cd(4)->SetLeftMargin(0.15);
+  c->cd(5)->SetLeftMargin(0.15);
+  c->cd(6)->SetLeftMargin(0.15);
+  c->cd(7)->SetLeftMargin(0.15);
+  c->cd(8)->SetLeftMargin(0.15);  
+  
+  c->SaveAs("../Plots/wafer/"+cantitle+".root");c->SaveAs("../Plots/wafer/"+cantitle+".pdf");
+  c->Close();
+  return c;
 }
 
 TGraph2D *Plot2D(std::vector<double> xvec, std::vector<double> yvec, std::vector<double> zvec, TString xtitle, TString ytitle, TString ztitle, TString title)
@@ -147,7 +186,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_8_VDDA = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_VDDA,"TID [MRad]", "LDOA Setting","Marker LDOA Setting");
   marker_y_8_VDDA = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_VDDA,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_8_VDDA = Plot2D(datavTID_EXT_8.marker_xcoord_VDDA,datavTID_EXT_8.marker_ycoord_VDDA,datavTID_EXT_8.MRad,"LDOA Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_1_chip_008 = Draw_EXT_subpad_6pads("EXT_subpad_1_chip_008",VDDA_vs_LDOA_disc_x_8,"AP",VDDA_vs_LDOA_disc_y_8,"AP",VDDA_vs_LDOA_disc_8,"colz",marker_x_8_VDDA,"AP",marker_y_8_VDDA,"AP",marker_8_VDDA,"colz");  
+  TCanvas *EXT_subpad_1_chip_008 = Draw_subpad_6pads("EXT_subpad_1_chip_008",VDDA_vs_LDOA_disc_x_8,"AP",VDDA_vs_LDOA_disc_y_8,"AP",VDDA_vs_LDOA_disc_8,"colz",marker_x_8_VDDA,"AP",marker_y_8_VDDA,"AP",marker_8_VDDA,"colz");  
   //EXT subpad 1 chip 009
   TGraph *VDDA_vs_LDOA_disc_x_9;
   TGraph *VDDA_vs_LDOA_disc_y_9;
@@ -161,7 +200,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_9_VDDA = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_VDDA,"TID [MRad]", "LDOA Setting","Marker LDOA Setting");
   marker_y_9_VDDA = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_VDDA,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_VDDA = Plot2D(datavTID_EXT_9.marker_xcoord_VDDA,datavTID_EXT_9.marker_ycoord_VDDA,datavTID_EXT_9.MRad,"LDOA Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_1_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_1_chip_009",VDDA_vs_LDOA_disc_x_9,"AP",VDDA_vs_LDOA_disc_y_9,"AP",VDDA_vs_LDOA_disc_9,"colz",marker_x_9_VDDA,"AP",marker_y_9_VDDA,"AP",marker_9_VDDA,"colz");
+  TCanvas *EXT_subpad_1_chip_009 = Draw_subpad_6pads("EXT_subpad_1_chip_009",VDDA_vs_LDOA_disc_x_9,"AP",VDDA_vs_LDOA_disc_y_9,"AP",VDDA_vs_LDOA_disc_9,"colz",marker_x_9_VDDA,"AP",marker_y_9_VDDA,"AP",marker_9_VDDA,"colz");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
@@ -178,7 +217,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_8_VDDD = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_VDDD,"TID [MRad]","LDOD Setting","Marker LDOD Setting");
   marker_y_8_VDDD = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_VDDD,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_8_VDDD = Plot2D(datavTID_EXT_8.marker_xcoord_VDDD,datavTID_EXT_8.marker_ycoord_VDDD,datavTID_EXT_8.MRad,"LDOD Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_2_chip_008 = Draw_EXT_subpad_6pads("EXT_subpad_2_chip_008",VDDD_vs_LDOD_disc_x_8,"AP",VDDD_vs_LDOD_disc_y_8,"AP",VDDD_vs_LDOD_disc_8,"colz",marker_x_8_VDDD,"AP",marker_y_8_VDDD,"AP",marker_8_VDDD,"colz");  
+  TCanvas *EXT_subpad_2_chip_008 = Draw_subpad_6pads("EXT_subpad_2_chip_008",VDDD_vs_LDOD_disc_x_8,"AP",VDDD_vs_LDOD_disc_y_8,"AP",VDDD_vs_LDOD_disc_8,"colz",marker_x_8_VDDD,"AP",marker_y_8_VDDD,"AP",marker_8_VDDD,"colz");  
   //EXT subpad 2 chip 009
   TGraph *VDDD_vs_LDOD_disc_x_9;
   TGraph *VDDD_vs_LDOD_disc_y_9;
@@ -192,7 +231,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_9_VDDD = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_VDDD,"TID [MRad]","LDOD Setting","Marker LDOD Setting");
   marker_y_9_VDDD = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_VDDD,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_VDDD = Plot2D(datavTID_EXT_9.marker_xcoord_VDDD,datavTID_EXT_9.marker_ycoord_VDDD,datavTID_EXT_9.MRad,"LDOD Setting","Measured Voltage [V]","TID [MRad]", "Marker Position");
-  TCanvas *EXT_subpad_2_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_2_chip_009",VDDD_vs_LDOD_disc_x_9,"AP",VDDD_vs_LDOD_disc_y_9,"AP",VDDD_vs_LDOD_disc_9,"colz",marker_x_9_VDDD,"AP",marker_y_9_VDDD,"AP",marker_9_VDDD,"colz");  
+  TCanvas *EXT_subpad_2_chip_009 = Draw_subpad_6pads("EXT_subpad_2_chip_009",VDDD_vs_LDOD_disc_x_9,"AP",VDDD_vs_LDOD_disc_y_9,"AP",VDDD_vs_LDOD_disc_9,"colz",marker_x_9_VDDD,"AP",marker_y_9_VDDD,"AP",marker_9_VDDD,"colz");  
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
@@ -203,7 +242,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   TRDAC_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.TRDACfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","TRDAC p0");
   TRDAC_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.TRDACfitp1, "TID [MRad]","Parameter p1 [Gradieent]","TRDAC p1");
   TRDAC_8 = Plot2D(datavTID_EXT_8.TRDACfitp0, datavTID_EXT_8.TRDACfitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","TRDAC Parameters");
-  TCanvas *EXT_subpad_3_chip_008 = Draw_EXT_subpad_3pads("EXT_subpad_3_chip_008",TRDAC_p0_8,"AP",TRDAC_p1_8,"AP",TRDAC_8,"colz");
+  TCanvas *EXT_subpad_3_chip_008 = Draw_subpad_3pads("EXT_subpad_3_chip_008",TRDAC_p0_8,"AP",TRDAC_p1_8,"AP",TRDAC_8,"colz");
   //EXT subpad 3 chip 009
   TGraph *TRDAC_p0_9;
   TGraph *TRDAC_p1_9;
@@ -211,7 +250,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   TRDAC_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.TRDACfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","TRDAC p0");
   TRDAC_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.TRDACfitp1, "TID [MRad]","Parameter p1 [Gradieent]","TRDAC p1");
   TRDAC_9 = Plot2D(datavTID_EXT_9.TRDACfitp0, datavTID_EXT_9.TRDACfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","TRDAC Parameters");
-  TCanvas *EXT_subpad_3_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_3_chip_009",TRDAC_p0_9,"AP",TRDAC_p1_9,"AP",TRDAC_9,"colz");
+  TCanvas *EXT_subpad_3_chip_009 = Draw_subpad_3pads("EXT_subpad_3_chip_009",TRDAC_p0_9,"AP",TRDAC_p1_9,"AP",TRDAC_9,"colz");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
@@ -228,7 +267,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_8_VRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_VRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_8_VRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_VRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_8_VRef = Plot2D(datavTID_EXT_8.marker_xcoord_VRef,datavTID_EXT_8.marker_ycoord_VRef,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_4_chip_008 = Draw_EXT_subpad_6pads("EXT_subpad_4_chip_008",VRef_p0_8,"AP",VRef_p1_8,"AP",VRef_8,"colz",marker_x_8_VRef,"AP",marker_y_8_VRef,"AP",marker_8_VRef,"AP");  
+  TCanvas *EXT_subpad_4_chip_008 = Draw_subpad_6pads("EXT_subpad_4_chip_008",VRef_p0_8,"AP",VRef_p1_8,"AP",VRef_8,"colz",marker_x_8_VRef,"AP",marker_y_8_VRef,"AP",marker_8_VRef,"AP");  
   //EXT subpad 4 chip 009
   TGraph *VRef_p0_9;
   TGraph *VRef_p1_9;
@@ -242,7 +281,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_9_VRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_VRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_9_VRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_VRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_VRef = Plot2D(datavTID_EXT_9.marker_xcoord_VRef,datavTID_EXT_9.marker_ycoord_VRef,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_4_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_4_chip_009",VRef_p0_9,"AP",VRef_p1_9,"AP",VRef_9,"colz",marker_x_9_VRef,"AP",marker_y_9_VRef,"AP",marker_9_VRef,"AP");
+  TCanvas *EXT_subpad_4_chip_009 = Draw_subpad_6pads("EXT_subpad_4_chip_009",VRef_p0_9,"AP",VRef_p1_9,"AP",VRef_9,"colz",marker_x_9_VRef,"AP",marker_y_9_VRef,"AP",marker_9_VRef,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -259,7 +298,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_8_IRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_IRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_8_IRef = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_IRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_8_IRef = Plot2D(datavTID_EXT_8.marker_xcoord_IRef,datavTID_EXT_8.marker_ycoord_IRef,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_5_chip_008 = Draw_EXT_subpad_6pads("EXT_subpad_5_chip_008",IRef_p0_8,"AP",IRef_p1_8,"AP",IRef_8,"colz",marker_x_8_IRef,"AP",marker_y_8_IRef,"AP",marker_8_IRef,"AP");  
+  TCanvas *EXT_subpad_5_chip_008 = Draw_subpad_6pads("EXT_subpad_5_chip_008",IRef_p0_8,"AP",IRef_p1_8,"AP",IRef_8,"colz",marker_x_8_IRef,"AP",marker_y_8_IRef,"AP",marker_8_IRef,"AP");  
   //EXT subpad 5 chip 009
   TGraph *IRef_p0_9;
   TGraph *IRef_p1_9;
@@ -273,7 +312,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_9_IRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_IRef,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_9_IRef = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_IRef,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_IRef = Plot2D(datavTID_EXT_9.marker_xcoord_IRef,datavTID_EXT_9.marker_ycoord_IRef,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_5_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_5_chip_009",IRef_p0_9,"AP",IRef_p1_9,"AP",IRef_9,"colz",marker_x_9_IRef,"AP",marker_y_9_IRef,"AP",marker_9_IRef,"AP");
+  TCanvas *EXT_subpad_5_chip_009 = Draw_subpad_6pads("EXT_subpad_5_chip_009",IRef_p0_9,"AP",IRef_p1_9,"AP",IRef_9,"colz",marker_x_9_IRef,"AP",marker_y_9_IRef,"AP",marker_9_IRef,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -290,7 +329,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_8_R8B = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_R8B,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_8_R8B = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_R8B,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_8_R8B = Plot2D(datavTID_EXT_8.marker_xcoord_R8B,datavTID_EXT_8.marker_ycoord_R8B,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_6_chip_008 = Draw_EXT_subpad_6pads("EXT_subpad_6_chip_008",R8B_p0_8,"AP",R8B_p1_8,"AP",R8B_8,"colz",marker_x_8_R8B,"AP",marker_y_8_R8B,"AP",marker_8_R8B,"AP");  
+  TCanvas *EXT_subpad_6_chip_008 = Draw_subpad_6pads("EXT_subpad_6_chip_008",R8B_p0_8,"AP",R8B_p1_8,"AP",R8B_8,"colz",marker_x_8_R8B,"AP",marker_y_8_R8B,"AP",marker_8_R8B,"AP");  
   //EXT subpad 6 chip 009
   TGraph *R8B_p0_9;
   TGraph *R8B_p1_9;
@@ -304,7 +343,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_9_R8B = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_R8B,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_9_R8B = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_R8B,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_R8B = Plot2D(datavTID_EXT_9.marker_xcoord_R8B,datavTID_EXT_9.marker_ycoord_R8B,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_6_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_6_chip_009",R8B_p0_9,"AP",R8B_p1_9,"AP",R8B_9,"colz",marker_x_9_R8B,"AP",marker_y_9_R8B,"AP",marker_9_R8B,"AP");
+  TCanvas *EXT_subpad_6_chip_009 = Draw_subpad_6pads("EXT_subpad_6_chip_009",R8B_p0_9,"AP",R8B_p1_9,"AP",R8B_9,"colz",marker_x_9_R8B,"AP",marker_y_9_R8B,"AP",marker_9_R8B,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -325,7 +364,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   VB_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VB p1");
   VB_p2_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VB p2");
   VB_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VBfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VB p3");
-  TCanvas *EXT_subpad_7_chip_008 = Draw_EXT_subpad_8pads("EXT_subpad_7_chip_008",VCD_p0_8,"AP",VCD_p1_8,"AP",VCD_p2_8,"AP",VCD_p3_8,"AP",VB_p0_8,"AP",VB_p1_8,"AP",VB_p2_8,"AP",VB_p3_8,"AP");
+  TCanvas *EXT_subpad_7_chip_008 = Draw_subpad_8pads("EXT_subpad_7_chip_008",VCD_p0_8,"AP",VCD_p1_8,"AP",VCD_p2_8,"AP",VCD_p3_8,"AP",VB_p0_8,"AP",VB_p1_8,"AP",VB_p2_8,"AP",VB_p3_8,"AP");
   //EXT subpad 7 chip 009
   TGraph *VCD_p0_9;
   TGraph *VCD_p1_9;
@@ -343,7 +382,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   VB_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp1, "TID [MRad]","Parameter p1 [Gradieent]","VB p1");
   VB_p2_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp2, "TID [MRad]","Parameter p2 [Gradieent]","VB p2");
   VB_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VBfitp3, "TID [MRad]","Parameter p3 [Gradieent]","VB p3");
-  TCanvas *EXT_subpad_7_chip_009 = Draw_EXT_subpad_8pads("EXT_subpad_7_chip_009",VCD_p0_9,"AP",VCD_p1_9,"AP",VCD_p2_9,"AP",VCD_p3_9,"AP",VB_p0_9,"AP",VB_p1_9,"AP",VB_p2_9,"AP",VB_p3_9,"AP");
+  TCanvas *EXT_subpad_7_chip_009 = Draw_subpad_8pads("EXT_subpad_7_chip_009",VCD_p0_9,"AP",VCD_p1_9,"AP",VCD_p2_9,"AP",VCD_p3_9,"AP",VB_p0_9,"AP",VB_p1_9,"AP",VB_p2_9,"AP",VB_p3_9,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -354,7 +393,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   CALLINE_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.CALLINEfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","CALLINE p0");
   CALLINE_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.CALLINEfitp1, "TID [MRad]","Parameter p1 [Gradieent]","CALLINE p1");
   CALLINE_8 = Plot2D(datavTID_EXT_8.CALLINEfitp0, datavTID_EXT_8.CALLINEfitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","CALLINE Parameters");
-  TCanvas *EXT_subpad_8_chip_008 = Draw_EXT_subpad_3pads("EXT_subpad_8_chip_008",CALLINE_p0_8,"AP",CALLINE_p1_8,"AP",CALLINE_8,"colz");
+  TCanvas *EXT_subpad_8_chip_008 = Draw_subpad_3pads("EXT_subpad_8_chip_008",CALLINE_p0_8,"AP",CALLINE_p1_8,"AP",CALLINE_8,"colz");
   //EXT subpad 8 chip 009
   TGraph *CALLINE_p0_9;
   TGraph *CALLINE_p1_9;
@@ -362,7 +401,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   CALLINE_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.CALLINEfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","CALLINE p0");
   CALLINE_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.CALLINEfitp1, "TID [MRad]","Parameter p1 [Gradieent]","CALLINE p1");
   CALLINE_9 = Plot2D(datavTID_EXT_9.CALLINEfitp0, datavTID_EXT_9.CALLINEfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","CALLINE Parameters");
-  TCanvas *EXT_subpad_8_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_8_chip_009",CALLINE_p0_9,"AP",CALLINE_p1_9,"AP",CALLINE_9,"colz");
+  TCanvas *EXT_subpad_8_chip_009 = Draw_subpad_3pads("EXT_subpad_8_chip_009",CALLINE_p0_9,"AP",CALLINE_p1_9,"AP",CALLINE_9,"colz");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -373,7 +412,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   THDAC_p0_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.THDACfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","THDAC p0");
   THDAC_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.THDACfitp1, "TID [MRad]","Parameter p1 [Gradieent]","THDAC p1");
   THDAC_8 = Plot2D(datavTID_EXT_8.THDACfitp0, datavTID_EXT_8.THDACfitp1, datavTID_EXT_8.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","THDAC Parameters");
-  TCanvas *EXT_subpad_9_chip_008 = Draw_EXT_subpad_3pads("EXT_subpad_9_chip_008",THDAC_p0_8,"AP",THDAC_p1_8,"AP",THDAC_8,"colz");
+  TCanvas *EXT_subpad_9_chip_008 = Draw_subpad_3pads("EXT_subpad_9_chip_008",THDAC_p0_8,"AP",THDAC_p1_8,"AP",THDAC_8,"colz");
   //EXT subpad 9 chip 009
   TGraph *THDAC_p0_9;
   TGraph *THDAC_p1_9;
@@ -381,7 +420,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   THDAC_p0_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.THDACfitp0, "TID [MRad]","Parameter p0 [Measured Voltage [V]]","THDAC p0");
   THDAC_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.THDACfitp1, "TID [MRad]","Parameter p1 [Gradieent]","THDAC p1");
   THDAC_9 = Plot2D(datavTID_EXT_9.THDACfitp0, datavTID_EXT_9.THDACfitp1, datavTID_EXT_9.MRad,"Parameter p1 [Measured Voltage [V]]","Parameter p1 [Gradient]","TID [MRad]","THDAC Parameters");
-  TCanvas *EXT_subpad_9_chip_009 = Draw_EXT_subpad_3pads("EXT_subpad_9_chip_009",THDAC_p0_9,"AP",THDAC_p1_9,"AP",THDAC_9,"colz");
+  TCanvas *EXT_subpad_9_chip_009 = Draw_subpad_3pads("EXT_subpad_9_chip_009",THDAC_p0_9,"AP",THDAC_p1_9,"AP",THDAC_9,"colz");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
  
@@ -394,7 +433,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   VTHTEST_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VTHTESTfitp1, "TID [MRad]","Parameter p1", "VTHTEST p1");
   VTHTEST_p2_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VTHTESTfitp2, "TID [MRad]","Parameter p2", "VTHTEST p2");
   VTHTEST_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.VTHTESTfitp3, "TID [MRad]","Parameter p3", "VTHTEST p3");
-  TCanvas *EXT_subpad_10_chip_008 = Draw_EXT_subpad_4pads("EXT_subpad_10_chip_008",VTHTEST_p0_8,"AP",VTHTEST_p1_8,"AP",VTHTEST_p2_8,"AP",VTHTEST_p3_8,"AP");
+  TCanvas *EXT_subpad_10_chip_008 = Draw_subpad_4pads("EXT_subpad_10_chip_008",VTHTEST_p0_8,"AP",VTHTEST_p1_8,"AP",VTHTEST_p2_8,"AP",VTHTEST_p3_8,"AP");
   //EXT subpad 10 chip 009
   TGraph *VTHTEST_p0_9;
   TGraph *VTHTEST_p1_9;
@@ -404,7 +443,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   VTHTEST_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VTHTESTfitp1, "TID [MRad]","Parameter p1", "VTHTEST p1");
   VTHTEST_p2_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VTHTESTfitp2, "TID [MRad]","Parameter p2", "VTHTEST p2");
   VTHTEST_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.VTHTESTfitp3, "TID [MRad]","Parameter p3", "VTHTEST p3");
-  TCanvas *EXT_subpad_10_chip_009 = Draw_EXT_subpad_4pads("EXT_subpad_10_chip_009",VTHTEST_p0_9,"AP",VTHTEST_p1_9,"AP",VTHTEST_p2_9,"AP",VTHTEST_p3_9,"AP");
+  TCanvas *EXT_subpad_10_chip_009 = Draw_subpad_4pads("EXT_subpad_10_chip_009",VTHTEST_p0_9,"AP",VTHTEST_p1_9,"AP",VTHTEST_p2_9,"AP",VTHTEST_p3_9,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -421,7 +460,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_8_COM = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_xcoord_COM,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_8_COM = Plot(datavTID_EXT_8.MRad,datavTID_EXT_8.marker_ycoord_COM,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_8_COM = Plot2D(datavTID_EXT_8.marker_xcoord_COM,datavTID_EXT_8.marker_ycoord_COM,datavTID_EXT_8.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_11_chip_008 = Draw_EXT_subpad_6pads("EXT_subpad_11_chip_008",COM_p0_8,"AP",COM_p1_8,"AP",COM_8,"colz",marker_x_8_COM,"AP",marker_y_8_COM,"AP",marker_8_COM,"AP");
+  TCanvas *EXT_subpad_11_chip_008 = Draw_subpad_6pads("EXT_subpad_11_chip_008",COM_p0_8,"AP",COM_p1_8,"AP",COM_8,"colz",marker_x_8_COM,"AP",marker_y_8_COM,"AP",marker_8_COM,"AP");
   //EXT subpad 11 chip 009
   TGraph *COM_p0_9;
   TGraph *COM_p1_9;
@@ -435,7 +474,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   marker_x_9_COM = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_xcoord_COM,"TID [MRad]","Variable Setting","Marker Variable Setting");
   marker_y_9_COM = Plot(datavTID_EXT_9.MRad,datavTID_EXT_9.marker_ycoord_COM,"TID [MRad]","Measured Voltage [V]","Marker Measured Voltage [V]");
   marker_9_COM = Plot2D(datavTID_EXT_9.marker_xcoord_COM,datavTID_EXT_9.marker_ycoord_COM,datavTID_EXT_9.MRad,"Variable Setting","Measured Voltage [V]","TID [MRad]", "Marker Position (Null)");
-  TCanvas *EXT_subpad_11_chip_009 = Draw_EXT_subpad_6pads("EXT_subpad_11_chip_009",COM_p0_9,"AP",COM_p1_9,"AP",COM_9,"colz",marker_x_9_COM,"AP",marker_y_9_COM,"AP",marker_9_COM,"AP");
+  TCanvas *EXT_subpad_11_chip_009 = Draw_subpad_6pads("EXT_subpad_11_chip_009",COM_p0_9,"AP",COM_p1_9,"AP",COM_9,"colz",marker_x_9_COM,"AP",marker_y_9_COM,"AP",marker_9_COM,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -448,7 +487,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   DRIVE_p1_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.DRIVEfitp1, "TID [MRad]","Parameter p1","DRIVE p1");
   DRIVE_p2_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.DRIVEfitp2, "TID [MRad]","Parameter p2","DRIVE p2");
   DRIVE_p3_8 = Plot(datavTID_EXT_8.MRad, datavTID_EXT_8.DRIVEfitp3, "TID [MRad]","Parameter p3","DRIVE p3");
-  TCanvas *EXT_subpad_12_chip_008 = Draw_EXT_subpad_4pads("EXT_subpad_12_chip_008",DRIVE_p0_8,"AP",DRIVE_p1_8,"AP",DRIVE_p2_8,"AP",DRIVE_p3_8,"AP");
+  TCanvas *EXT_subpad_12_chip_008 = Draw_subpad_4pads("EXT_subpad_12_chip_008",DRIVE_p0_8,"AP",DRIVE_p1_8,"AP",DRIVE_p2_8,"AP",DRIVE_p3_8,"AP");
   //EXT subpad 12 chip 009
   TGraph *DRIVE_p0_9;
   TGraph *DRIVE_p1_9;
@@ -458,7 +497,7 @@ void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_
   DRIVE_p1_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.DRIVEfitp1, "TID [MRad]","Parameter p1","DRIVE p1");
   DRIVE_p2_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.DRIVEfitp2, "TID [MRad]","Parameter p2","DRIVE p2");
   DRIVE_p3_9 = Plot(datavTID_EXT_9.MRad, datavTID_EXT_9.DRIVEfitp3, "TID [MRad]","Parameter p3","DRIVE p3");
-  TCanvas *EXT_subpad_12_chip_009 = Draw_EXT_subpad_4pads("EXT_subpad_12_chip_009",DRIVE_p0_9,"AP",DRIVE_p1_9,"AP",DRIVE_p2_9,"AP",DRIVE_p3_9,"AP");
+  TCanvas *EXT_subpad_12_chip_009 = Draw_subpad_4pads("EXT_subpad_12_chip_009",DRIVE_p0_9,"AP",DRIVE_p1_9,"AP",DRIVE_p2_9,"AP",DRIVE_p3_9,"AP");
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
 }
