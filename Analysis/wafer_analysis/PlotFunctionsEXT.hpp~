@@ -138,42 +138,42 @@ TGraph2D *Plot2D(std::vector<double> xvec, std::vector<double> yvec, std::vector
   TGraph2D *g = new TGraph2D();g->SetTitle(title+";"+xtitle+";"+ytitle+";"+ztitle);Double_t x,y,z;for(int i{0}; i<xvec.size(); ++i){x=xvec[i];y=yvec[i];z=zvec[i];g->SetPoint(i,x,y,z);}return g;
 }
 
-void PlotFunctions(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_9)
+void PlotFunctionsEXT(Data_vs_TID_EXT datavTID_EXT_8, Data_vs_TID_EXT datavTID_EXT_9)
 {
   //EXT timestamp vs TID
-  TGraph *timestamp_TID_8 = new TGraph(datavTID_EXT_8.timeStamp.size(),&(datavTID_EXT_8.timeStamp[0]),&(datavTID_EXT_8.MRad[0]));
-  timestamp_TID_8->SetMarkerStyle(20);
-  timestamp_TID_8->SetMarkerSize(0.5);
-  timestamp_TID_8->SetMarkerColor(kRed);
-  timestamp_TID_8->SetLineColor(kRed);
-  TGraph *timestamp_TID_9 = new TGraph(datavTID_EXT_9.timeStamp.size(),&(datavTID_EXT_9.timeStamp[0]),&(datavTID_EXT_9.MRad[0]));
-  timestamp_TID_9->SetMarkerStyle(20);
-  timestamp_TID_9->SetMarkerSize(0.5);
-  timestamp_TID_9->SetMarkerColor(kBlue);
-  timestamp_TID_9->SetLineColor(kBlue);
-  TMultiGraph *timestamp_TID = new TMultiGraph();
-  timestamp_TID->GetXaxis()->SetTitle("Time Stamp");
-  timestamp_TID->GetYaxis()->SetTitle("TID [MRad]");
-  timestamp_TID->SetTitle("");
-  timestamp_TID->Add(timestamp_TID_8,"p");
-  timestamp_TID->Add(timestamp_TID_9,"p");
-  TLegend *timestamp_TID_leg = new TLegend(0.3,0.3,0.45,0.45);
-  timestamp_TID_leg->AddEntry(timestamp_TID_8,"chip 008","lp");
-  timestamp_TID_leg->AddEntry(timestamp_TID_9,"chip 009","lp");
-  TCanvas *timestamp_TID_can = new TCanvas("timestamp_TID","timestamp_TID",600,600);
+  TGraph *timestamp_TID_EXT_8 = new TGraph(datavTID_EXT_8.timeStamp.size(),&(datavTID_EXT_8.timeStamp[0]),&(datavTID_EXT_8.MRad[0]));
+  timestamp_TID_EXT_8->SetMarkerStyle(20);
+  timestamp_TID_EXT_8->SetMarkerSize(0.5);
+  timestamp_TID_EXT_8->SetMarkerColor(kRed);
+  timestamp_TID_EXT_8->SetLineColor(kRed);
+  TGraph *timestamp_TID_EXT_9 = new TGraph(datavTID_EXT_9.timeStamp.size(),&(datavTID_EXT_9.timeStamp[0]),&(datavTID_EXT_9.MRad[0]));
+  timestamp_TID_EXT_9->SetMarkerStyle(20);
+  timestamp_TID_EXT_9->SetMarkerSize(0.5);
+  timestamp_TID_EXT_9->SetMarkerColor(kBlue);
+  timestamp_TID_EXT_9->SetLineColor(kBlue);
+  TMultiGraph *timestamp_TID_EXT = new TMultiGraph();
+  timestamp_TID_EXT->GetXaxis()->SetTitle("Time Stamp");
+  timestamp_TID_EXT->GetYaxis()->SetTitle("TID [MRad]");
+  timestamp_TID_EXT->SetTitle("");
+  timestamp_TID_EXT->Add(timestamp_TID_EXT_8,"p");
+  timestamp_TID_EXT->Add(timestamp_TID_EXT_9,"p");
+  TLegend *timestamp_TID_EXT_leg = new TLegend(0.3,0.3,0.45,0.45);
+  timestamp_TID_EXT_leg->AddEntry(timestamp_TID_EXT_8,"chip 008","lp");
+  timestamp_TID_EXT_leg->AddEntry(timestamp_TID_EXT_9,"chip 009","lp");
+  TCanvas *timestamp_TID_EXT_can = new TCanvas("timestamp_TID","timestamp_TID",600,600);
   TGaxis::SetMaxDigits(2);
-  timestamp_TID_leg->SetBorderSize(0);
-  timestamp_TID_leg->SetFillColor(0);
-  timestamp_TID_leg->SetTextSize(0.02);
-  timestamp_TID_leg->SetFillStyle(1000);
-  timestamp_TID_leg->SetTextFont(42);
-  timestamp_TID_leg->SetNColumns(1);
-  timestamp_TID->Draw("AP");
-  //timestamp_TID_leg->Draw("same");
-  //timestamp_TID_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.root");
-  //timestamp_TID_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.pdf");
-  timestamp_TID_can->Close();
-  
+  timestamp_TID_EXT_leg->SetBorderSize(0);
+  timestamp_TID_EXT_leg->SetFillColor(0);
+  timestamp_TID_EXT_leg->SetTextSize(0.02);
+  timestamp_TID_EXT_leg->SetFillStyle(1000);
+  timestamp_TID_EXT_leg->SetTextFont(42);
+  timestamp_TID_EXT_leg->SetNColumns(1);
+  timestamp_TID_EXT->Draw("AP");
+  //timestamp_TID_EXT_leg->Draw("same");
+  //timestamp_TID_EXT_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.root");
+  //timestamp_TID_EXT_can->SaveAs("../Plots/wafer/EXT_timestamp_vs_TID.pdf");
+  timestamp_TID_EXT_can->Close();
+
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
   //EXT subpad 1 chip 008

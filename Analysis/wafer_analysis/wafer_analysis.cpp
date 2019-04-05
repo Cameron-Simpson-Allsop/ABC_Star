@@ -3,7 +3,8 @@
 #include <string>
 #include "ProcessRootFile.hpp"
 #include "Functions.hpp"
-#include "PlotFunctions.hpp"
+#include "PlotFunctionsEXT.hpp"
+#include "PlotFunctionsINT.hpp"
 #include "EXT_analysis.hpp"
 #include "INT_analysis.hpp"
 

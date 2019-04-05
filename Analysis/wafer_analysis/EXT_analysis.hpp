@@ -378,7 +378,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
   rejectedFiles.close();
   std::cout<<"================================================================================================"<<std::endl;
   
-  PlotFunctions(datavTID_EXT_8, datavTID_EXT_9);
+  PlotFunctionsEXT(datavTID_EXT_8, datavTID_EXT_9);
   
   std::cout<<"================================================================================================\nEXT\n"<<std::endl;	      
   std::cout<<"Total number of files read = "<<filecount<<std::endl;

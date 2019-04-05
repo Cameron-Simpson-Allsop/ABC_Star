@@ -79,6 +79,8 @@ void INT_analysis(std::vector<TString> INTfiles)
   acceptedFiles.close();
   rejectedFiles.close();
   std::cout<<"================================================================================================"<<std::endl;	        
+
+  PlotFunctionsINT(datavTID_INT_8, datavTID_INT_9);
   
   std::cout<<"================================================================================================\nINT\n"<<std::endl;	      
   std::cout<<"Total number of files read = "<<filecount<<std::endl;
