@@ -103,13 +103,62 @@ TID_Data EXT_VCD_DRIVE_VB(Data data)
   return TID;
 }
 
-TID_Data INT_VDDAvsLDOA(Data data)
+TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data)
 {
   TID_Data TID;
   TID.timeStamp = data.timeStamp;
   TID.MRad = data.MRad;
-  TID.disc_x = 1.;
-  TID.disc_y = 1.;
+  double y1,y2,y3,y4,y5;
+  for(int n{0}; n<data.x.size()-4; ++n)
+    {
+      y1 = data.y[n];
+      y2 = data.y[n+1];
+      y3 = data.y[n+2];
+      y4 = data.y[n+3];
+      y5 = data.y[n+4];
+      float tol{10.};
+      if(y5<y4<y3<y2<y1 && abs(y5-y4) > tol && abs(y4-y3) > tol && abs(y3-y2) > tol && abs(y2-y1) > tol)
+	{
+	  TID.disc_x = data.x[n];
+	  TID.disc_y = data.y[n];
+	  n=data.x.size()-4;
+	}
+    }
+  if(data.init_check == true)
+    {
+      TF1 *fitlower = new TF1("fitlower","pol1",0,TID.disc_x);
+      TF1 *fitupper = new TF1("fitupper","pol1",TID.disc_x,20);
+      TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
+      if(TID.disc_x < 100. && TID.disc_x > 0.000001 && TID.disc_y <100000. && TID.disc_y > 0.000001 )
+	{
+	  g->Fit(fitlower,"QRN");
+	  g->Fit(fitupper,"QRN");
+	}
+      else
+	{
+	  data.init_check = false;
+	}
+      double xint = (fitupper->GetParameter(0)-fitlower->GetParameter(0))/(fitlower->GetParameter(1)-fitupper->GetParameter(1));
+      double yint = (fitlower->GetParameter(0)*fitupper->GetParameter(1)-fitlower->GetParameter(1)*fitupper->GetParameter(0))/(fitupper->GetParameter(1)-fitlower->GetParameter(1));
+      if(xint<20. && xint>0. && yint<5000. && yint>0.)
+  	{
+  	  TID.disc_x = xint;
+  	  TID.disc_y = yint;
+  	}
+    }
+  TID.init_check = data.init_check;
+  return TID;
+}
+
+TID_Data INT_TRDAC(Data data)
+{
+  TID_Data TID;
+  TID.timeStamp = data.timeStamp;
+  TID.MRad = data.MRad;
+  TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
+  TF1 *fit = new TF1("fit","pol1",0,40);
+  TID.redfitp0 = fit->GetParameter(0);
+  TID.redfitp1 = fit->GetParameter(1);
   TID.init_check = data.init_check;
   return TID;
 }
@@ -140,7 +189,9 @@ TID_Data Functions(Data data, int function, std::string EXTINT)
     {
       switch(function)
 	{
-	case 0: TID = INT_VDDAvsLDOA(data); break;
+	case 0: TID = INT_VDDAvsLDOA_VDDDvsLDOD(data); break;
+	case 1: TID = INT_VDDAvsLDOA_VDDDvsLDOD(data); break;
+	case 2: TID = INT_TRDAC(data); break;
 	}
     }
   else std::cout<<"Invalid function input..."<<std::endl;

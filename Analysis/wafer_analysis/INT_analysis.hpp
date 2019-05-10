@@ -31,7 +31,7 @@ void INT_analysis(std::vector<TString> INTfiles)
       else if(!inFile->IsZombie())
 	{
 	  ++filecount;
-	  for(int i{0}; i<1; ++i)
+	  for(int i{0}; i<3; ++i)
 	    {
 	      ++padcount;
 	      Data data;
@@ -72,7 +72,43 @@ void INT_analysis(std::vector<TString> INTfiles)
 		      rejectedFiles<<fileName<<std::endl;
 		    }
 		  break;
+
+		case 1:
+		  TID = Functions(data,i,"INT");
+		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+		    {
+		      datavTID_INT_8.VDDD_vs_LDOD_disc_x.push_back(TID.disc_x);
+		      datavTID_INT_8.VDDD_vs_LDOD_disc_y.push_back(TID.disc_y);
+		      ++processedpadcount;
+		    }
+		  else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+		    {		     
+		      datavTID_INT_9.VDDD_vs_LDOD_disc_x.push_back(TID.disc_x);
+		      datavTID_INT_9.VDDD_vs_LDOD_disc_y.push_back(TID.disc_y);
+		      ++processedpadcount;
+		    }		  
+		  break;
+
+		case 2:
+		  TID = Functions(data,i,"INT");
+		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
+		    {
+		      datavTID_INT_8.TRDACfitp0.push_back(TID.redfitp0);
+		      datavTID_INT_8.TRDACfitp1.push_back(TID.redfitp1);
+		      ++processedpadcount;
+		    }
+		  else if(TID.init_check == true && chip009 != std::string::npos && chip008 == std::string::npos)
+		    {
+		      datavTID_INT_9.TRDACfitp0.push_back(TID.redfitp0);
+		      datavTID_INT_9.TRDACfitp1.push_back(TID.redfitp1);
+		      ++processedpadcount;
+		    }		  
+		  break;
 		}
+	      // if(TID.init_check == false)
+	      // 	{
+	      // 	  continue;
+	      // 	}
 	    }
 	}
     }
