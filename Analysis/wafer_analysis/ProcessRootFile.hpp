@@ -11,6 +11,7 @@ struct Data
   std::vector<double> ey;
   TString padName;
   TString graphName;
+  TString fileName;
   double timeStamp;
   double MRad;  
   double marker_xcoord;
@@ -27,6 +28,7 @@ Data ProcessRootFile(std::string filename, TString padName, TString graphName, i
   //Define file path
   TString filePrefix = "../../wafer/";
   TString fileName = filename;
+  data.fileName = fileName;
   TString filePath = filePrefix+fileName;
   //Open file and draw
   TFile *file = TFile::Open(filePath);
@@ -142,12 +144,12 @@ Data ProcessRootFile(std::string filename, TString padName, TString graphName, i
       if(MRad == std::string::npos)
 	{
 	  data.init_check = false;
+	  //std::cout<<fileName<<"\t"<<padName<<"\t"<<data.init_check<<"\n";
 	}
       if(fitcheck == NULL && padName != "pad_plot_1" && padName != "pad_plot_2")
 	{
 	  data.init_check = false;
 	}
-      //std::cout<<fileName<<"\t"<<padName<<"\t"<<data.init_check<<"\n";
     }
   
   data.padName = padName;

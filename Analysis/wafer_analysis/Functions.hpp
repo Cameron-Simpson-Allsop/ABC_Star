@@ -103,9 +103,10 @@ TID_Data EXT_VCD_DRIVE_VB(Data data)
   return TID;
 }
 
-TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data)
+TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data, TString fileName)
 {
   TID_Data TID;
+  TID.fileName = fileName;
   TID.timeStamp = data.timeStamp;
   TID.MRad = data.MRad;
   double y1,y2,y3,y4,y5;
@@ -129,7 +130,7 @@ TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data)
       TF1 *fitlower = new TF1("fitlower","pol1",0,TID.disc_x);
       TF1 *fitupper = new TF1("fitupper","pol1",TID.disc_x,20);
       TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
-      if(TID.disc_x < 100. && TID.disc_x > 0.000001 && TID.disc_y <100000. && TID.disc_y > 0.000001 )
+      if(TID.disc_x < 20. && TID.disc_x > 0.000001 && TID.disc_y <5000. && TID.disc_y > 1000. )
 	{
 	  g->Fit(fitlower,"QRN");
 	  g->Fit(fitupper,"QRN");
@@ -150,20 +151,27 @@ TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data)
   return TID;
 }
 
-TID_Data INT_TRDAC(Data data)
+TID_Data INT_TRDAC_VRef(Data data, TString fileName)
 {
   TID_Data TID;
+  TID.fileName = fileName;
   TID.timeStamp = data.timeStamp;
   TID.MRad = data.MRad;
   TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
   TF1 *fit = new TF1("fit","pol1",0,40);
+  g->Fit(fit,"QRN");
   TID.redfitp0 = fit->GetParameter(0);
   TID.redfitp1 = fit->GetParameter(1);
-  TID.init_check = data.init_check;
+  if(TID.redfitp0<100 || TID.redfitp1<3){TID.init_check = false;}
+  else TID.init_check = data.init_check;
+  // if(TID.init_check == false)
+  //   {
+  //     std::cout<<TID.redfitp0<<"\t"<<TID.redfitp1<<"\t"<<TID.init_check<<"\t"<<TID.timeStamp<<"\t"<<TID.MRad<<std::endl;
+  //   }
   return TID;
 }
 
-TID_Data Functions(Data data, int function, std::string EXTINT)
+TID_Data Functions(Data data, int function, std::string EXTINT, TString fileName)
 {
   TID_Data TID;
   if(EXTINT == "EXT")
@@ -189,9 +197,10 @@ TID_Data Functions(Data data, int function, std::string EXTINT)
     {
       switch(function)
 	{
-	case 0: TID = INT_VDDAvsLDOA_VDDDvsLDOD(data); break;
-	case 1: TID = INT_VDDAvsLDOA_VDDDvsLDOD(data); break;
-	case 2: TID = INT_TRDAC(data); break;
+	case 0: TID = INT_VDDAvsLDOA_VDDDvsLDOD(data,fileName); break;
+	case 1: TID = INT_VDDAvsLDOA_VDDDvsLDOD(data,fileName); break;
+	case 2: TID = INT_TRDAC_VRef(data,fileName); break;
+	case 3: TID = INT_TRDAC_VRef(data,fileName); break;
 	}
     }
   else std::cout<<"Invalid function input..."<<std::endl;

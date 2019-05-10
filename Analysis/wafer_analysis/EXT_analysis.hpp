@@ -60,7 +60,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 	      switch(i)
 		{
 		case 0:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  //limits to ignore any uninitialised variables (Some files have no TID data)
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
@@ -94,7 +94,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 		  
 		case 1:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.VDDD_vs_LDOD_disc_x.push_back(TID.disc_x);
@@ -120,7 +120,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 2:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.TRDACfitp0.push_back(TID.redfitp0);
@@ -140,7 +140,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 3:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.VReffitp0.push_back(TID.redfitp0);
@@ -164,7 +164,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 4:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.IReffitp0.push_back(TID.redfitp0);
@@ -188,7 +188,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 5:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.R8Bfitp0.push_back(TID.redfitp0);
@@ -212,7 +212,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 6:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.VCDfitp0.push_back(TID.redfitp0);
@@ -236,7 +236,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 7:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.CALLINEfitp0.push_back(TID.redfitp0);
@@ -256,7 +256,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 8:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.THDACfitp0.push_back(TID.redfitp0);
@@ -276,7 +276,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 9:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.VTHTESTfitp0.push_back(TID.redfitp0);
@@ -300,7 +300,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 10:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.COMfitp0.push_back(TID.redfitp0);
@@ -324,7 +324,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 11:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.DRIVEfitp0.push_back(TID.redfitp0);
@@ -348,7 +348,7 @@ void EXT_analysis(std::vector<TString> EXTfiles)
 		  break;
 
 		case 12:
-		  TID = Functions(data,i,"EXT");
+		  TID = Functions(data,i,"EXT",fileName);
 		  if(TID.init_check == true && chip008 != std::string::npos && chip009 == std::string::npos)
 		    {
 		      datavTID_EXT_8.VBfitp0.push_back(TID.redfitp0);

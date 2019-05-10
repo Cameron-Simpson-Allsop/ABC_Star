@@ -10,6 +10,7 @@ struct TID_Data
   double redfitp1;
   double redfitp2;
   double redfitp3;
-
+  TString fileName;
+  
   bool init_check;
 };

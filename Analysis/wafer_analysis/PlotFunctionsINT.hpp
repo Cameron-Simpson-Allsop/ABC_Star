@@ -11,6 +11,9 @@ struct Data_vs_TID_INT
   std::vector<double> VDDD_vs_LDOD_disc_y;
   std::vector<double> TRDACfitp0;
   std::vector<double> TRDACfitp1;  
+  std::vector<double> VReffitp0;
+  std::vector<double> VReffitp1;
+  std::vector<TString> fileName;
 };
 
 TGraph *PlotINT(std::vector<double> x, std::vector<double> y, TString xtitle, TString ytitle, TString title)
@@ -165,20 +168,52 @@ void PlotFunctionsINT(Data_vs_TID_INT datavTID_INT_8, Data_vs_TID_INT datavTID_I
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
   //INT subpad 3 chip 008
-  TGraph *TRDACredfitp0_8;
-  TGraph *TRDACredfitp1_8;
-  TGraph2D *TRDACredfit_8;
-  TRDACredfitp0_8 = PlotINT(datavTID_INT_8.MRad, datavTID_INT_8.VDDD_vs_LDOD_disc_x, "TID [MRad]", "TRDAC fit p0 [ADC Reading]", "TRDAC fit p0 [ADC Reading]");
-  TRDACredfitp1_8 = PlotINT(datavTID_INT_8.MRad, datavTID_INT_8.VDDD_vs_LDOD_disc_y, "TID [MRad]", "TRDAC fit p1", "TRDAC fit p1");
-  TRDACredfit_8 = PlotINT2D(datavTID_INT_8.VDDD_vs_LDOD_disc_x, datavTID_INT_8.VDDD_vs_LDOD_disc_y, datavTID_INT_8.MRad, "TRDAC fit p0","TRDAC fit p1", "TID [MRad]","TRDAC fit");
-  TCanvas *INT_subpad_3_chip_008 = Draw_subpad_INT_3pads("INT_subpad_3_chip_008",TRDACredfitp0_8,"AP",TRDACredfitp1_8,"AP",TRDACredfit_8,"colz");
-  //INT subpad 3 chip 009
-  TGraph *TRDACredfitp0_9;
-  TGraph *TRDACredfitp1_9;
-  TGraph2D *TRDACredfit_9;
-  TRDACredfitp0_9 = PlotINT(datavTID_INT_9.MRad, datavTID_INT_9.VDDD_vs_LDOD_disc_x, "TID [MRad]", "TRDAC fit p0 [ADC Reading]", "TRDAC fit p0 [ADC Reading]");
-  TRDACredfitp1_9 = PlotINT(datavTID_INT_9.MRad, datavTID_INT_9.VDDD_vs_LDOD_disc_y, "TID [MRad]", "TRDAC fit p1", "TRDAC fit p1");
-  TRDACredfit_9 = PlotINT2D(datavTID_INT_9.VDDD_vs_LDOD_disc_x, datavTID_INT_9.VDDD_vs_LDOD_disc_y, datavTID_INT_9.MRad, "TRDAC fit p0","TRDAC fit p1", "TID [MRad]","TRDAC fit");
-  TCanvas *INT_subpad_3_chip_009 = Draw_subpad_INT_3pads("INT_subpad_3_chip_009",TRDACredfitp0_9,"AP",TRDACredfitp1_9,"AP",TRDACredfit_9,"colz");
+  // TGraph *TRDACredfitp0_8;
+  // TGraph *TRDACredfitp1_8;
+  // TGraph2D *TRDACredfit_8;
+  // TRDACredfitp0_8 = PlotINT(datavTID_INT_8.MRad, datavTID_INT_8.TRDACfitp0, "TID [MRad]", "TRDAC fit p0 [ADC Reading]", "TRDAC fit p0 [ADC Reading]");
+  // TRDACredfitp1_8 = PlotINT(datavTID_INT_8.MRad, datavTID_INT_8.TRDACfitp1, "TID [MRad]", "TRDAC fit p1", "TRDAC fit p1");
+  // TRDACredfit_8 = PlotINT2D(datavTID_INT_8.TRDACfitp0, datavTID_INT_8.TRDACfitp1, datavTID_INT_8.MRad, "TRDAC fit p0","TRDAC fit p1", "TID [MRad]","TRDAC fit");
+  // TCanvas *INT_subpad_3_chip_008 = Draw_subpad_INT_3pads("INT_subpad_3_chip_008",TRDACredfitp0_8,"AP",TRDACredfitp1_8,"AP",TRDACredfit_8,"colz");
+  // //INT subpad 3 chip 009
+  // TGraph *TRDACredfitp0_9;
+  // TGraph *TRDACredfitp1_9;
+  // TGraph2D *TRDACredfit_9;
+  // TRDACredfitp0_9 = PlotINT(datavTID_INT_9.MRad, datavTID_INT_9.TRDACfitp0, "TID [MRad]", "TRDAC fit p0 [ADC Reading]", "TRDAC fit p0 [ADC Reading]");
+  // TRDACredfitp1_9 = PlotINT(datavTID_INT_9.MRad, datavTID_INT_9.TRDACfitp1, "TID [MRad]", "TRDAC fit p1", "TRDAC fit p1");
+  // TRDACredfit_9 = PlotINT2D(datavTID_INT_9.TRDACfitp0, datavTID_INT_9.TRDACfitp1, datavTID_INT_9.MRad, "TRDAC fit p0","TRDAC fit p1", "TID [MRad]","TRDAC fit");
+  // TCanvas *INT_subpad_3_chip_009 = Draw_subpad_INT_3pads("INT_subpad_3_chip_009",TRDACredfitp0_9,"AP",TRDACredfitp1_9,"AP",TRDACredfit_9,"colz");
   
+  // //////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // //INT subpad 4 chip 008
+  // TGraph *VRefredfitp0_8;
+  // TGraph *VRefredfitp1_8;
+  // TGraph2D *VRefredfit_8;
+  // VRefredfitp0_8 = PlotINT(datavTID_INT_8.MRad, datavTID_INT_8.VReffitp0, "TID [MRad]", "VRef fit p0 [ADC Reading]", "VRef fit p0 [ADC Reading]");
+  // VRefredfitp1_8 = PlotINT(datavTID_INT_8.MRad, datavTID_INT_8.VReffitp1, "TID [MRad]", "VRef fit p1", "VRef fit p1");
+  // VRefredfit_8 = PlotINT2D(datavTID_INT_8.VReffitp0, datavTID_INT_8.VReffitp1, datavTID_INT_8.MRad, "VRef fit p0","VRef fit p1", "TID [MRad]","VRef fit");
+  // TCanvas *INT_subpad_4_chip_008 = Draw_subpad_INT_3pads("INT_subpad_4_chip_008",VRefredfitp0_8,"AP",VRefredfitp1_8,"AP",VRefredfit_8,"colz");
+  // //INT subpad 4 chip 009
+  // TGraph *VRefredfitp0_9;
+  // TGraph *VRefredfitp1_9;
+  // TGraph2D *VRefredfit_9;
+  // VRefredfitp0_9 = PlotINT(datavTID_INT_9.MRad, datavTID_INT_9.VReffitp0, "TID [MRad]", "VRef fit p0 [ADC Reading]", "VRef fit p0 [ADC Reading]");
+  // VRefredfitp1_9 = PlotINT(datavTID_INT_9.MRad, datavTID_INT_9.VReffitp1, "TID [MRad]", "VRef fit p1", "VRef fit p1");
+  // VRefredfit_9 = PlotINT2D(datavTID_INT_9.VReffitp0, datavTID_INT_9.VReffitp1, datavTID_INT_9.MRad, "VRef fit p0","VRef fit p1", "TID [MRad]","VRef fit");
+  // TCanvas *INT_subpad_4_chip_009 = Draw_subpad_INT_3pads("INT_subpad_4_chip_009",VRefredfitp0_9,"AP",VRefredfitp1_9,"AP",VRefredfit_9,"colz");
+
+  ofstream dataFile;
+  dataFile.open("Datafile_INT.txt");
+
+  dataFile<<"FileName\ttimeStamp\tTID\tVDDA_vs_LDOA_disc_x\tVDDA_vs_LDOA_disc_y\tVDDD_vs_LDOD_disc_x\tVDDD_vs_LDOD_disc_y"<<std::endl;
+  for(int i{0}; i<datavTID_INT_8.fileName.size(); ++i){
+    //  dataFile<<datavTID_INT_8.fileName[i]<<"\t"<<datavTID_INT_8.timeStamp[i]<<"\t"<<datavTID_INT_8.MRad[i]<<"\t"<<datavTID_INT_8.VDDA_vs_LDOA_disc_x[i]<<"\t"<<datavTID_INT_8.VDDA_vs_LDOA_disc_y[i]<<"\t"<<datavTID_INT_8.VDDD_vs_LDOD_disc_x[i]<<"\t"<<datavTID_INT_8.VDDD_vs_LDOD_disc_y[i]<<std::endl;
+
+    //  dataFile<<datavTID_INT_9.fileName[i]<<"\t"<<datavTID_INT_9.timeStamp[i]<<"\t"<<datavTID_INT_9.MRad[i]<<"\t"<<datavTID_INT_9.VDDA_vs_LDOA_disc_x[i]<<"\t"<<datavTID_INT_9.VDDA_vs_LDOA_disc_y[i]<<"\t"<<datavTID_INT_9.VDDD_vs_LDOD_disc_x[i]<<"\t"<<datavTID_INT_9.VDDD_vs_LDOD_disc_y[i]<<std::endl;
+  }
+  std::cout<<datavTID_INT_8.fileName.size()<<"\t"<<datavTID_INT_8.timeStamp.size()<<"\t"<<datavTID_INT_8.MRad.size()<<"\t"<<datavTID_INT_8.VDDA_vs_LDOA_disc_x.size()<<"\t"<<datavTID_INT_8.VDDA_vs_LDOA_disc_y.size()<<"\t"<<datavTID_INT_8.VDDD_vs_LDOD_disc_x.size()<<"\t"<<datavTID_INT_8.VDDD_vs_LDOD_disc_y.size()<<std::endl;
+  
+  dataFile.close();
+
 }
