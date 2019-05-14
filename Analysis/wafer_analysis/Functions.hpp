@@ -130,7 +130,7 @@ TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data, TString fileName)
       TF1 *fitlower = new TF1("fitlower","pol1",0,TID.disc_x);
       TF1 *fitupper = new TF1("fitupper","pol1",TID.disc_x,20);
       TGraph *g = new TGraph(data.x.size(),&(data.x[0]),&(data.y[0]));
-      if(TID.disc_x < 20. && TID.disc_x > 0.000001 && TID.disc_y <5000. && TID.disc_y > 1000. )
+      if(TID.disc_x < 20. && TID.disc_x > 0.000001 && TID.disc_y < 5000. && TID.disc_y > 1000. )
 	{
 	  g->Fit(fitlower,"QRN");
 	  g->Fit(fitupper,"QRN");
@@ -141,12 +141,20 @@ TID_Data INT_VDDAvsLDOA_VDDDvsLDOD(Data data, TString fileName)
 	}
       double xint = (fitupper->GetParameter(0)-fitlower->GetParameter(0))/(fitlower->GetParameter(1)-fitupper->GetParameter(1));
       double yint = (fitlower->GetParameter(0)*fitupper->GetParameter(1)-fitlower->GetParameter(1)*fitupper->GetParameter(0))/(fitupper->GetParameter(1)-fitlower->GetParameter(1));
-      if(xint<20. && xint>0. && yint<5000. && yint>0.)
+      if(xint<20. && xint>0.1 && yint<5000. && yint>0.1)
   	{
   	  TID.disc_x = xint;
   	  TID.disc_y = yint;
   	}
+      else
+	{
+	  data.init_check = false;
+	}
     }
+  // if(data.init_check==true)
+  //   {
+  //     std::cout<<fileName<<"\t"<<TID.disc_x<<"\t"<<TID.disc_y<<"\n";
+  //   }
   TID.init_check = data.init_check;
   return TID;
 }
@@ -162,12 +170,13 @@ TID_Data INT_TRDAC_VRef(Data data, TString fileName)
   g->Fit(fit,"QRN");
   TID.redfitp0 = fit->GetParameter(0);
   TID.redfitp1 = fit->GetParameter(1);
-  if(TID.redfitp0<100 || TID.redfitp1<3){TID.init_check = false;}
-  else TID.init_check = data.init_check;
+  //if(TID.redfitp0<100 || TID.redfitp1<3){TID.init_check = false;}
+  //else TID.init_check = data.init_check;
   // if(TID.init_check == false)
   //   {
-  //     std::cout<<TID.redfitp0<<"\t"<<TID.redfitp1<<"\t"<<TID.init_check<<"\t"<<TID.timeStamp<<"\t"<<TID.MRad<<std::endl;
+  //   std::cout<<TID.redfitp0<<"\t"<<TID.redfitp1<<"\t"<<TID.init_check<<"\t"<<TID.timeStamp<<"\t"<<TID.MRad<<std::endl;
   //   }
+  TID.init_check=data.init_check;
   return TID;
 }
 
